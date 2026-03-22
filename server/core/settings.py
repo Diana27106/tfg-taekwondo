@@ -39,11 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework.authtoken',
     'club',
 ]
 
 REST_FRAMEWORK = {
-    # Por ahora permitimos lectura pública, pero podrías restringirlo aquí
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny', 
     ],
@@ -52,10 +56,10 @@ REST_FRAMEWORK = {
         'rest_framework.throttling.UserRateThrottle'
     ],
     'DEFAULT_THROTTLE_RATES': {
-        'anon': '100/day',  # Un usuario anónimo solo puede hacer 100 peticiones al día
+        'anon': '100/day',
         'user': '1000/day'
     }
-} 
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -98,7 +102,7 @@ DATABASES = {
         'USER': 'admin',
         'PASSWORD': 'admin',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5433',
     }
 }
 
@@ -152,3 +156,13 @@ import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Email Configuration
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'radudiaale27@gmail.com'
+EMAIL_HOST_PASSWORD = 'hymhppdnzdvnkrmc'
+DEFAULT_FROM_EMAIL = 'radudiaale27@gmail.com'
+ADMIN_EMAIL = 'radudiaale27@gmail.com'
