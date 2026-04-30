@@ -20,9 +20,9 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
-            <img 
-              src="/src/assets/img/logos/logoFBlanco.png" 
-              alt="Taekwondo Sierra Nevada" 
+            <img
+              src="/src/assets/img/logos/logoFBlanco.png"
+              alt="Taekwondo Sierra Nevada"
               className="h-16 w-auto"
             />
           </div>

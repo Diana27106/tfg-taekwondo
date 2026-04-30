@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Lock, User } from 'lucide-react';
+
+// Import Assets
+import logo from '../../assets/img/logos/logoFBlanco.png';
+import heroImage from '../../assets/img/large/heroLogin.jpg';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -12,88 +15,125 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
-    
     try {
-      const response = await axios.post('http://localhost:8000/api/login/', {
-        username,
-        password
-      });
-      
+      const response = await axios.post('http://localhost:8000/api/login/', { username, password });
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('username', username);
+        localStorage.setItem('login_timestamp', Date.now().toString());
         navigate('/admin');
       }
     } catch (err) {
-      setError('Credenciales inválidas. Por favor, intenta de nuevo.');
-      console.error('Error logging in:', err);
+      setError('Credenciales inválidas.');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-950 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white dark:bg-gray-900 p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-800">
-        <div>
-          <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-            Iniciar Sesión
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
-            Acceso exclusivo para administradores
-          </p>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
-          {error && (
-            <div className="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 p-3 rounded-lg text-sm text-center">
-              {error}
-            </div>
-          )}
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="username" className="sr-only">Usuario</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  required
-                  className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
-                  placeholder="Usuario"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </div>
+    <div className="min-h-screen w-full flex items-center justify-center bg-[#0f0e17] p-4 md:p-8">
+      <div className="max-w-6xl w-full flex flex-col md:flex-row bg-[#1e1b2e]/60 backdrop-blur-xl rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/5 mx-auto">
+        
+        {/* Columna Izquierda: Imagen/Hero */}
+        <div className="hidden md:block md:w-3/5 relative min-h-[650px]">
+          <img 
+            src={heroImage} 
+            alt="Taekwondo Background" 
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
+          />
+          <div className="absolute inset-0 bg-gradient-to-tr from-[#0f0e17] via-[#0f0e17]/40 to-transparent" />
+          
+          {/* Overlay de Texto e Iconos */}
+          <div className="absolute top-10 left-10 flex items-center gap-4 group">
+            <div className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center overflow-hidden border border-white/20 group-hover:border-purple-500/50 transition-all duration-500">
+               <img src={logo} alt="logo" className="w-10 h-10 object-contain" />
             </div>
             <div>
-              <label htmlFor="password" className="sr-only">Contraseña</label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
-                  placeholder="Contraseña"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
+              <h1 className="text-white text-sm font-black tracking-[0.2em] uppercase">Taekwondo</h1>
+              <p className="text-purple-400/80 text-[11px] font-medium tracking-widest uppercase">Sierra Nevada</p>
             </div>
           </div>
 
-          <div>
+          <div className="absolute bottom-12 left-12 flex flex-col gap-2">
+             <span className="text-white/10 text-8xl font-black select-none pointer-events-none uppercase tracking-tighter">Focus</span>
+             <span className="text-purple-500/20 text-7xl font-black select-none pointer-events-none [writing-mode:vertical-rl] mt-4">태권도</span>
+          </div>
+        </div>
+
+        {/* Columna Derecha: Formulario */}
+        <div className="w-full md:w-2/5 p-10 md:p-16 flex flex-col justify-center relative bg-[#161426]/80 backdrop-blur-sm">
+          <div className="mb-12">
+            <h2 className="text-white text-4xl font-bold mb-3 tracking-tight">
+              Bienvenido
+            </h2>
+            <p className="text-gray-400 text-sm">Gestiona tu escuela de taekwondo con eficiencia.</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-6">
+            {error && (
+              <div className="animate-shake">
+                <p className="text-red-400 text-xs font-medium bg-red-400/10 border border-red-400/20 py-3 px-4 rounded-xl text-center">
+                  {error}
+                </p>
+              </div>
+            )}
+            
+            <div className="space-y-4">
+              <div className="group">
+                <label className="text-xs text-gray-500 font-semibold mb-2 block ml-1 uppercase tracking-wider group-focus-within:text-purple-400 transition-colors">Usuario</label>
+                <input
+                  type="text"
+                  placeholder="Introduce tu usuario"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500/50 transition-all duration-300"
+                />
+              </div>
+              <div className="group">
+                <label className="text-xs text-gray-500 font-semibold mb-2 block ml-1 uppercase tracking-wider group-focus-within:text-purple-400 transition-colors">Contraseña</label>
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/30 focus:border-purple-500/50 transition-all duration-300"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end">
+              <a href="#" className="text-xs text-purple-400 hover:text-purple-300 transition-colors">¿Olvidaste tu contraseña?</a>
+            </div>
+
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold py-4 rounded-xl shadow-[0_10px_20px_-10px_rgba(124,58,237,0.5)] hover:shadow-[0_15px_25px_-10px_rgba(124,58,237,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 mt-4"
             >
-              Entrar al panel
+              Entrar al Panel
             </button>
-          </div>
-        </form>
+
+            {/* Separador */}
+            <div className="relative my-10">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-white/5"></div>
+              </div>
+              <div className="relative flex justify-center text-[10px] uppercase tracking-[0.2em] font-bold">
+                <span className="bg-[#161426] px-4 text-gray-600">O accede con</span>
+              </div>
+            </div>
+
+            {/* Botón Google */}
+            <button
+              type="button"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-4 flex items-center justify-center gap-3 text-white text-sm font-medium hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+            >
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5" />
+              Cuenta de Google
+            </button>
+          </form>
+
+          <p className="mt-12 text-center text-xs text-gray-600">
+            &copy; {new Date().getFullYear()} Taekwondo Sierra Nevada. Todos los derechos reservados.
+          </p>
+        </div>
       </div>
     </div>
   );

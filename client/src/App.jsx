@@ -42,6 +42,9 @@ import Navbar from './components/public/Navbar';
 import Footer from './components/public/Footer';
 import ChatWidget from './components/public/ChatWidget';
 
+// Admin Placeholder Pages
+import SettingsPage from './pages/admin/SettingsPage';
+
 function App() {
   return (
     <div className="antialiased text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-950 min-h-screen">
@@ -49,12 +52,24 @@ function App() {
         <Routes>
           {/* Rutas Públicas con Navbar */}
           <Route element={
-            <>
-              <Navbar />
-              <Outlet />
-              <ChatWidget />
-              <Footer />
-            </>
+            <div className="relative flex flex-col min-h-screen w-full">
+              {/* Backgrounds (fixed) */}
+              <div
+                className="fixed inset-0 bg-cover bg-center"
+                style={{ backgroundImage: "url('/src/assets/img/large/background.jpg')" }}
+              ></div>
+              <div className="fixed inset-0 bg-white/75"></div>
+
+              {/* Foreground content */}
+              <div className="relative z-10 flex flex-col flex-grow w-full font-sans">
+                <Navbar />
+                <main className="flex-grow overflow-x-hidden">
+                  <Outlet />
+                </main>
+                <ChatWidget />
+                <Footer />
+              </div>
+            </div>
           }>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
@@ -62,7 +77,7 @@ function App() {
             <Route path="/sponsors/:id" element={<SponsorDetailPage />} />
             <Route path="/clases" element={<ClasesPage />} />
             <Route path="/blog" element={<BlogPage />} />
-            <Route path="/blog/:id" element={<NoticiaDetailPage />} />
+            <Route path="/noticia/:slug" element={<NoticiaDetailPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/politicas" element={<PoliticasPage />} />
             <Route path="/cookies" element={<CookiesPage />} />
@@ -71,7 +86,7 @@ function App() {
           </Route>
 
           <Route path="/login" element={<LoginPage />} />
-          
+
           {/* Rutas Protegidas de Admin */}
           <Route path="/admin" element={<ProtectedRoute />}>
             <Route index element={<DashboardPage />} />
@@ -90,6 +105,9 @@ function App() {
             <Route path="noticias" element={<NoticiasPage />} />
             <Route path="noticias/crearnoticias" element={<CrearNoticiaPage />} />
             <Route path="noticias/editarnoticias" element={<EditarNoticiaPage />} />
+
+            {/* Nuevas páginas */}
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

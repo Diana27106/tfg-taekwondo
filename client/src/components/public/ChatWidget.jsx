@@ -15,21 +15,25 @@ const ChatWidget = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/chatbot/', {
+      const response = await fetch('http://localhost:5678/webhook/chatbot-rag', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pregunta }),
+        body: JSON.stringify({ chatInput: pregunta }),
       });
-      const data = await response.json();
+      
+      // n8n workflow 'Respond to Webhook' is configured for 'text' response
+      const data = await response.text();
+      
       const botMessage = {
         role: 'bot',
-        content: data.respuesta || data.error || 'Sin respuesta del servidor.',
+        content: data || 'Sin respuesta del servidor de IA.',
       };
       setMessages((prev) => [...prev, botMessage]);
-    } catch {
+    } catch (error) {
+      console.error('Chatbot error:', error);
       setMessages((prev) => [
         ...prev,
-        { role: 'bot', content: 'Error de conexión con el servidor.' },
+        { role: 'bot', content: 'Error de conexión con el servidor de IA.' },
       ]);
     } finally {
       setIsLoading(false);

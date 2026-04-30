@@ -1,9 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Premium Light Mode - High-Tech Laboratory */
+  --background: 230 25% 97.5%;
+  --foreground: 224 71% 4%;
+  --card: 0 0% 100%;
+  --card-foreground: 224 71% 4%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 224 71% 4%;
+  --primary: 270 95% 55%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 190 95% 45%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 220 14% 94%;
+  --muted-foreground: 220 9% 46%;
+  --accent: 190 95% 45%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 270 95% 55%;
+  --radius: 0.75rem;
+}
+
+.dark {
+  /* Futuristic Dark Mode - Obsidian & Cyber Purple */
+  --background: 240 10% 2%;
+  --foreground: 240 10% 95%;
+  --card: 240 10% 4%;
+  --card-foreground: 240 10% 95%;
+  --popover: 240 10% 2%;
+  --popover-foreground: 240 10% 95%;
+  --primary: 270 95% 65%;
+  --primary-foreground: 240 10% 2%;
+  --secondary: 190 95% 50%;
+  --secondary-foreground: 240 10% 2%;
+  --muted: 240 10% 12%;
+  --muted-foreground: 240 5% 65%;
+  --accent: 190 95% 50%;
+  --accent-foreground: 240 10% 2%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 240 10% 95%;
+  --border: 240 10% 12%;
+  --input: 240 10% 12%;
+  --ring: 270 95% 65%;
+}
 
 @layer base {
-  body {
-    @apply bg-gray-50 text-gray-900;
+  * {
+    @apply border-border;
   }
+  body {
+    @apply bg-background text-foreground transition-colors duration-500;
+    font-family: 'Outfit', sans-serif;
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.08) 0%, transparent 60%),
+      linear-gradient(rgba(168, 85, 247, 0.03) 1.5px, transparent 1.5px),
+      linear-gradient(90deg, rgba(168, 85, 247, 0.03) 1.5px, transparent 1.5px);
+    background-size: 100% 100%, 50px 50px, 50px 50px;
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .tech-card {
+    @apply bg-card/80 backdrop-blur-xl border border-border/60 shadow-[0_8px_32px_rgba(0,0,0,0.05)] dark:shadow-[0_0_30px_rgba(168,85,247,0.05)] transition-all duration-300;
+  }
+  
+  .cyber-glow {
+    @apply shadow-[0_0_15px_rgba(168,85,247,0.4)];
+  }
+
+  .text-glow {
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+  }
+
+  .scan-line {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.5), transparent);
+    @apply animate-scan;
+  }
+
+  .cyber-grid {
+    background-image: 
+      linear-gradient(rgba(168, 85, 247, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-indigo-500 to-cyan-500;
+  }
+
+  /* --- Cyber Form Utilities --- */
+  .tech-input {
+    @apply w-full bg-black/40 border border-border/30 rounded-sm px-6 py-4 text-[11px] font-black text-foreground uppercase tracking-widest outline-none transition-all focus:border-primary/50 focus:ring-1 focus:ring-primary/20 placeholder:text-gray-700;
+  }
+
+  .tech-label {
+    @apply flex items-center gap-3 text-[9px] font-black text-gray-500 uppercase tracking-[0.4em] mb-3;
+  }
+
+  .tech-label-line {
+    @apply w-1.5 h-[1px] bg-primary;
+  }
+
+  .tech-form-group {
+    @apply space-y-2;
+  }
+
+  .tech-upload-area {
+    @apply relative border-2 border-dashed border-border/30 bg-black/20 rounded-sm overflow-hidden flex items-center justify-center transition-all hover:border-primary/50 hover:bg-black/40 cursor-pointer;
+  }
+
+  .tech-upload-preview {
+    @apply grayscale opacity-40 transition-all duration-700;
+  }
+}
+
+@keyframes scan {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(1000%); }
+}
+
+.animate-scan {
+  animation: scan 10s linear infinite;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border hover:bg-primary/50 transition-colors rounded-full;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* GalleryCarousel.css */
+.perspective-container {
+  perspective: 2000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.rotate-y-0 {
+  transform: rotateY(0deg);
+}
+
+.rotate-y-\[-20deg\] {
+  transform: rotateY(-20deg);
+}
+
+.rotate-y-\[20deg\] {
+  transform: rotateY(20deg);
 }

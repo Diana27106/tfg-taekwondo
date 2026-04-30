@@ -18,6 +18,14 @@ const ChatBot = ({ onClose, messages, onSend, isLoading }) => {
     }
   };
 
+  const chatContainerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages, isLoading]);
+
   return (
     <div className="w-[380px] bg-white rounded-lg shadow-2xl border border-gray-200 overflow-hidden flex flex-col mb-4 transition-all animate-in fade-in slide-in-from-bottom-5">
       
@@ -35,7 +43,10 @@ const ChatBot = ({ onClose, messages, onSend, isLoading }) => {
       </div>
 
       {/* Mensajes */}
-      <div className="p-4 h-52 overflow-y-auto flex flex-col gap-3">
+      <div 
+        ref={chatContainerRef}
+        className="p-4 h-52 overflow-y-auto flex flex-col gap-3 scroll-smooth"
+      >
         {messages.length === 0 && (
           <p className="text-gray-500 text-sm text-center mt-4">¡Hola! Soy Young-Su AI. ¿Cómo puedo ayudarte?</p>
         )}
