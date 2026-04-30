@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 # 1. INSTRUCTOR (Relación 1:N con Group)
 class Instructor(models.Model):
@@ -48,6 +49,34 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+# 7. CHATBOT QUERIES
+class ChatQuery(models.Model):
+    user_question = models.TextField(verbose_name="Pregunta del Usuario")
+    bot_response = models.TextField(verbose_name="Respuesta del Bot")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha y Hora")
+    metadata = models.JSONField(null=True, blank=True, verbose_name="Metadatos Extra")
+
+    class Meta:
+        verbose_name = "Consulta de Chatbot"
+        verbose_name_plural = "Consultas de Chatbot"
+
+    def __str__(self):
+        return f"Consulta {self.id} - {self.created_at.strftime('%Y-%m-%d %H:%M')}"
+
+# 8. RAG DOCUMENTS
+class ChatDocument(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Título del Documento")
+    file = models.FileField(upload_to='chat_documents/', verbose_name="Archivo")
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de Subida")
+    metadata = models.JSONField(null=True, blank=True, verbose_name="Metadatos (Colección, etc.)")
+
+    class Meta:
+        verbose_name = "Documento de RAG"
+        verbose_name_plural = "Documentos de RAG"
+
+    def __str__(self):
+        return self.title
+
 # 5. SPONSORS
 class Sponsor(models.Model):
     name = models.CharField(max_length=100, verbose_name="Empresa")
@@ -61,7 +90,7 @@ class Sponsor(models.Model):
 # 6. NEWS
 class News(models.Model):
     title = models.CharField(max_length=200, verbose_name="Título")
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True, blank=True)
     published_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha")
     img1 = models.ImageField(upload_to='news/', verbose_name="Imagen 1")
     img2 = models.ImageField(upload_to='news/', blank=True, null=True, verbose_name="Imagen 2")
@@ -69,6 +98,11 @@ class News(models.Model):
 
     class Meta:
         verbose_name_plural = "Noticias"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

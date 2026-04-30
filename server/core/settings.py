@@ -45,11 +45,11 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'core.authentication.ExpiringTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny', 
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly', 
     ],
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
@@ -136,6 +136,7 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+SESSION_COOKIE_AGE = 3600 # 1 hour
 
 
 # Static files (CSS, JavaScript, Images)
@@ -166,3 +167,6 @@ EMAIL_HOST_USER = 'radudiaale27@gmail.com'
 EMAIL_HOST_PASSWORD = 'hymhppdnzdvnkrmc'
 DEFAULT_FROM_EMAIL = 'radudiaale27@gmail.com'
 ADMIN_EMAIL = 'radudiaale27@gmail.com'
+
+# Chatbot n8n Webhook
+N8N_CHATBOT_WEBHOOK = 'http://localhost:5678/webhook/chatbot-rag'
