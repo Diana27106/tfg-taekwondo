@@ -1,16 +1,81 @@
-version: "3.8"
-
 services:
-  db:
+  # ── Base de datos vectorial (Qdrant) ──────────────────────────────────
+  qdrant:
+    image: qdrant/qdrant
+    container_name: tfg-taekwondo-qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"
+    volumes:
+      # La ':Z' es la clave en Fedora/SELinux
+      - qdrant_data:/qdrant/storage:Z 
+    networks:
+      - tfg-network
+
+  # ── Base de datos Relacional (PostgreSQL) ───────────────────────────
+  postgres:
     image: postgres:15
+    container_name: tfg-taekwondo-postgres
+    restart: unless-stopped
+    ports:
+      - "5433:5432"
     environment:
       - POSTGRES_DB=taekwondodb
       - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=batman
-    ports:
-      - "5432:5432"
+      - POSTGRES_PASSWORD=admin
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:Z
+      - postgres_data:/var/lib/postgresql/data:Z
+    networks:
+      - tfg-network
+
+  # ── LLM Local (Ollama) ───────────────────────────────────────────────
+  ollama:
+    image: ollama/ollama
+    container_name: tfg-taekwondo-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama:Z
+    entrypoint: /bin/sh
+    command: -c "ollama serve & sleep 10 && ollama pull smollm2:1.7b && ollama pull nomic-embed-text && wait"
+    networks:
+      - tfg-network
+
+  # ── Automatización Chatbot (n8n) ────────────────────────────────────
+  n8n:
+    image: n8nio/n8n
+    container_name: tfg-taekwondo-n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=host.docker.internal
+      - DB_POSTGRESDB_PORT=5433
+      - DB_POSTGRESDB_DATABASE=taekwondodb
+      - DB_POSTGRESDB_USER=admin
+      - DB_POSTGRESDB_PASSWORD=admin
+      - N8N_BASIC_AUTH_ACTIVE=false
+      - N8N_SECURE_COOKIE=false
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - qdrant
+      - ollama
+      - postgres
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - tfg-network
 
 volumes:
+  qdrant_data:
+  ollama_data:
+  n8n_data:
   postgres_data:
+
+networks:
+  tfg-network:
+    driver: bridge
