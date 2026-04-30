@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import dossierPdf from '../../assets/pdf/DOSSIER TKD SIERRA NEVADA.pdf';
 
 const Modal = ({ isOpen, onClose, title, message, isError }) => {
   if (!isOpen) return null;
@@ -47,7 +48,7 @@ const ContactPage = () => {
     message: '',
     isError: false,
   });
-  
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -64,7 +65,7 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.acepto) {
       setModalConfig({
         isOpen: true,
@@ -120,38 +121,40 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 font-sans">
-      <Modal 
-        {...modalConfig} 
-        onClose={() => setModalConfig({ ...modalConfig, isOpen: false })} 
+    <div className="min-h-screen font-sans">
+      <Modal
+        {...modalConfig}
+        onClose={() => setModalConfig({ ...modalConfig, isOpen: false })}
       />
 
-      {/* Hero Section */}
-      <section 
-        className="relative h-64 flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1552072092-7f9b8d63efcb?q=80&w=2070&auto=format&fit=crop')" }}
-      >
-        <div className="absolute inset-0 bg-black/60"></div>
-        <h1 className="relative z-10 text-white text-5xl md:text-6xl font-bold tracking-wider">
+      {/* CABECERA (Header) */}
+      <div className="relative w-full h-56 md:h-80 bg-gray-700 flex items-center justify-center overflow-hidden shadow-2xl">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-50 mix-blend-overlay"
+          style={{ backgroundImage: "url('../../../src/assets/img/large/heroBlog.jpg')" }}
+        ></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-700/40"></div>
+        <style>{"@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');"}</style>
+        <h1
+          className="relative z-10 text-white text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight drop-shadow-lg uppercase text-center mt-8 md:mt-12"
+          style={{ fontFamily: "'Anta', sans-serif" }}
+        >
           Contacto
         </h1>
-      </section>
+      </div>
 
       {/* Main Content Area */}
-      <main 
-        className="py-12 px-4 md:px-8 bg-cover bg-fixed"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1555597673-b21d5c935865?q=80&w=2072&auto=format&fit=crop')" }}
-      >
+      <main className='p-10'>
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          
+
           {/* Formulario de Contacto (2/3 columnas) */}
           <div className="md:col-span-2 bg-white/95 p-8 shadow-lg rounded-sm">
             <h2 className="text-2xl font-bold text-center mb-2 uppercase tracking-tighter">Formulario de contacto</h2>
             <div className="h-0.5 bg-yellow-500 w-full mb-6"></div>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <p className="font-bold text-gray-700">Registrate</p>
-              
+
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-1">Nombre :</label>
                 <input
@@ -256,14 +259,25 @@ const ContactPage = () => {
             <div className="mt-auto w-full h-64 bg-gray-200 rounded overflow-hidden">
               <iframe
                 title="mapa-ubicacion"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3180.252678123456!2d-3.649!3d37.149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDA4JzU2LjQiTiAzwrAzOCU1Ni40Ilc!5e0!3m2!1ses!2ses!4v1620000000000!5m2!1ses!2ses"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3180.186596374947!2d-3.6338329999999996!3d37.1482624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd71fb3a9ffc182f%3A0x42d0c77f192a03b5!2sTaekwon%20Do%20Sierra%20Nevada%20SEDES%20POR%20TODA%20GRANADA%20Y%20ALREDEDORES!5e0!3m2!1ses!2ses!4v1776707973273!5m2!1ses!2ses"
                 className="w-full h-full border-0"
                 allowFullScreen=""
                 loading="lazy"
               ></iframe>
             </div>
           </div>
-
+        </div>
+        {/* Sección del PDF (Dossier) */}
+        <div className="max-w-6xl mx-auto mt-12 bg-white/95 p-8 shadow-lg rounded-sm">
+          <h2 className="text-2xl font-bold text-center mb-2 uppercase tracking-tighter">Dossier Informativo</h2>
+          <div className="h-0.5 bg-yellow-500 w-full mb-6"></div>
+          <div className="w-full h-[500px] md:h-[800px] bg-gray-100 rounded overflow-hidden">
+            <iframe
+              src={`${dossierPdf}#toolbar=0`}
+              className="w-full h-full border-0"
+              title="Dossier Informativo PDF"
+            ></iframe>
+          </div>
         </div>
       </main>
     </div>
