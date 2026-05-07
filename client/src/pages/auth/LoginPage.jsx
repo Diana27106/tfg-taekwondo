@@ -29,11 +29,17 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#0f0e17] p-4 md:p-8">
-      <div className="max-w-6xl w-full flex flex-col md:flex-row bg-[#1e1b2e]/60 backdrop-blur-xl rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/5 mx-auto">
+    <div className="min-h-screen w-full bg-[#0f0e17] relative">
+      {/* Imagen de fondo solo para MÓVIL */}
+      <div className="md:hidden absolute inset-0 z-0">
+        <img src={heroImage} alt="Background" className="w-full h-full object-cover opacity-30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0f0e17] via-transparent to-[#0f0e17]"></div>
+      </div>
+
+      <div className="relative z-10 w-full min-h-screen flex flex-col md:flex-row bg-[#1e1b2e]/40 md:bg-[#1e1b2e]/60 backdrop-blur-xl md:backdrop-blur-xl shadow-[0_0_50px_rgba(0,0,0,0.5)]">
         
         {/* Columna Izquierda: Imagen/Hero */}
-        <div className="hidden md:block md:w-3/5 relative min-h-[650px]">
+        <div className="hidden md:block md:w-3/5 relative h-screen">
           <img 
             src={heroImage} 
             alt="Taekwondo Background" 
@@ -59,15 +65,42 @@ const LoginPage = () => {
         </div>
 
         {/* Columna Derecha: Formulario */}
-        <div className="w-full md:w-2/5 p-10 md:p-16 flex flex-col justify-center relative bg-[#161426]/80 backdrop-blur-sm">
-          <div className="mb-12">
-            <h2 className="text-white text-4xl font-bold mb-3 tracking-tight">
-              Bienvenido
-            </h2>
-            <p className="text-gray-400 text-sm">Gestiona tu escuela de taekwondo con eficiencia.</p>
+        <div className="w-full md:w-2/5 p-8 md:p-16 flex flex-col justify-center relative bg-[#161426]/80 md:bg-[#161426]/80 backdrop-blur-sm min-h-screen overflow-y-auto custom-scrollbar">
+          
+          {/* Hero Header visible solo en MÓVIL */}
+          <div className="md:hidden relative h-60 -mx-8 -mt-8 mb-10 overflow-hidden rounded-b-[3rem] shadow-2xl animate-in fade-in slide-in-from-top duration-1000">
+            <img 
+              src={heroImage} 
+              alt="Taekwondo Hero" 
+              className="absolute inset-0 w-full h-full object-cover opacity-70"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#161426] via-[#161426]/40 to-transparent" />
+            
+            {/* Logo y Título sobre la imagen */}
+            <div className="absolute bottom-8 left-8 flex items-center gap-4">
+              <div className="w-14 h-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center overflow-hidden border border-white/20">
+                 <img src={logo} alt="logo" className="w-10 h-10 object-contain" />
+              </div>
+              <div>
+                <h1 className="text-white text-sm font-black tracking-[0.2em] uppercase">Taekwondo</h1>
+                <p className="text-purple-400 font-medium tracking-widest uppercase text-[11px]">Sierra Nevada</p>
+              </div>
+            </div>
+
+            {/* Decoración coreana pequeña */}
+            <div className="absolute top-6 right-8">
+              <span className="text-purple-500/40 text-4xl font-black select-none pointer-events-none">태권도</span>
+            </div>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <div className="mb-10 animate-in fade-in slide-in-from-left duration-700 delay-200">
+            <h2 className="text-white text-3xl md:text-4xl font-bold mb-2 tracking-tight">
+              Bienvenido
+            </h2>
+            <p className="text-gray-400 text-sm">Gestiona tu escuela con eficiencia.</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-6 animate-in fade-in slide-in-from-bottom duration-1000 delay-200">
             {error && (
               <div className="animate-shake">
                 <p className="text-red-400 text-xs font-medium bg-red-400/10 border border-red-400/20 py-3 px-4 rounded-xl text-center">

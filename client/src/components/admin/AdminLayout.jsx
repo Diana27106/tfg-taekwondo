@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { LayoutDashboard, Users, Calendar, Newspaper, Menu } from 'lucide-react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 
@@ -68,16 +70,49 @@ const AdminLayout = ({ children }) => {
         />
         
         {/* Main Content Area - Strictly Symmetrical */}
-        <main className="flex-1 lg:pl-64 transition-all duration-500 ease-in-out">
-          <div className="max-w-[1600px] mx-auto p-6 sm:p-10 lg:p-12 animate-fade-in">
+        <main className="flex-1 lg:pl-64 transition-all duration-500 ease-in-out pb-24 md:pb-0">
+          <div className="max-w-[1600px] mx-auto p-4 sm:p-8 lg:p-12 animate-fade-in">
             {children}
           </div>
         </main>
       </div>
 
+      {/* BARRA DE NAVEGACIÓN INFERIOR (Solo para móviles/tablets) */}
+      <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md h-16 bg-black/60 backdrop-blur-2xl border border-white/10 rounded-2xl z-50 flex items-center justify-around px-4 shadow-[0_20px_50px_rgba(0,0,0,0.5)] animate-in slide-in-from-bottom duration-700">
+        <BottomNavItem to="/admin" icon={<LayoutDashboard size={20} />} label="Dash" />
+        <BottomNavItem to="/admin/instructores" icon={<Users size={20} />} label="Instr" />
+        <BottomNavItem to="/admin/eventos" icon={<Calendar size={20} />} label="Event" />
+        <BottomNavItem to="/admin/noticias" icon={<Newspaper size={20} />} label="News" />
+        <button 
+          onClick={toggleSidebar}
+          className="flex flex-col items-center justify-center gap-1 text-gray-500 hover:text-primary transition-colors"
+        >
+          <div className="p-2 rounded-xl hover:bg-primary/10">
+            <Menu size={20} />
+          </div>
+          <span className="text-[8px] font-black uppercase tracking-widest">More</span>
+        </button>
+      </div>
+
       {/* Panoramic HUD Border (Bottom) */}
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[2000px] h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent z-20 pointer-events-none" />
+      <div className="hidden lg:block fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[2000px] h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent z-20 pointer-events-none" />
     </div>
+  );
+};
+
+// Componente auxiliar para los items de la barra inferior
+const BottomNavItem = ({ to, icon, label }) => {
+  const isSelected = window.location.pathname === to;
+  return (
+    <Link 
+      to={to} 
+      className={`flex flex-col items-center justify-center gap-1 transition-all duration-300 ${isSelected ? 'text-primary scale-110' : 'text-gray-500'}`}
+    >
+      <div className={`p-2 rounded-xl transition-all ${isSelected ? 'bg-primary/20 shadow-[0_0_15px_rgba(168,85,247,0.3)]' : 'hover:bg-white/5'}`}>
+        {icon}
+      </div>
+      <span className="text-[8px] font-black uppercase tracking-widest">{label}</span>
+    </Link>
   );
 };
 

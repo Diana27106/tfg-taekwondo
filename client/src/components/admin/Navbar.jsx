@@ -16,20 +16,6 @@ const Navbar = ({ toggleSidebar, isDarkMode, toggleDarkMode }) => {
           >
             <Menu size={24} />
           </button>
-          
-          <div className="hidden md:flex max-w-lg w-full">
-            <div className="relative w-full group">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                <Search className="h-4 w-4 text-gray-500 group-focus-within:text-primary transition-colors" />
-              </div>
-              <input
-                type="text"
-                placeholder="EXECUTE SCAN..."
-                className="w-full bg-black/5 dark:bg-white/5 text-foreground border border-border/50 rounded-sm pl-12 pr-4 py-3 focus:border-primary/50 focus:ring-0 transition-all outline-none text-[10px] font-black uppercase tracking-[0.2em] placeholder-gray-500"
-              />
-              <div className="absolute bottom-0 left-0 h-[1px] w-0 bg-primary group-focus-within:w-full transition-all duration-500 shadow-[0_0_10px_hsl(var(--primary))]" />
-            </div>
-          </div>
         </div>
 
 

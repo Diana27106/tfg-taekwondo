@@ -20,9 +20,9 @@ services:
     ports:
       - "5433:5432"
     environment:
-      - POSTGRES_DB=taekwondodb
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:Z
       - postgres_data:/var/lib/postgresql/data:Z
@@ -32,31 +32,31 @@ services:
   # ── LLM Local (Ollama) ───────────────────────────────────────────────
   ollama:
     image: ollama/ollama
-    container_name: tfg-taekwondo-ollama
+    container_name: ${OLLAMA_CONTAINER_NAME}
     restart: unless-stopped
     ports:
-      - "11434:11434"
+      - "${OLLAMA_PORT}:11434"
     volumes:
       - ollama_data:/root/.ollama:Z
     entrypoint: /bin/sh
-    command: -c "ollama serve & sleep 10 && ollama pull smollm2:1.7b && ollama pull nomic-embed-text && wait"
+    command: -c "ollama serve & sleep 10 && ollama pull ${OLLAMA_MODEL} && ollama pull ${OLLAMA_EMBEDDING_MODEL} && wait"
     networks:
       - tfg-network
 
   # ── Automatización Chatbot (n8n) ────────────────────────────────────
   n8n:
     image: n8nio/n8n
-    container_name: tfg-taekwondo-n8n
+    container_name: ${N8N_CONTAINER_NAME}
     restart: unless-stopped
     ports:
-      - "5678:5678"
+      - "${N8N_PORT}:5678"
     environment:
       - DB_TYPE=postgresdb
       - DB_POSTGRESDB_HOST=host.docker.internal
-      - DB_POSTGRESDB_PORT=5433
-      - DB_POSTGRESDB_DATABASE=taekwondodb
-      - DB_POSTGRESDB_USER=admin
-      - DB_POSTGRESDB_PASSWORD=admin
+      - DB_POSTGRESDB_PORT=${POSTGRES_PORT}
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DB}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
       - N8N_BASIC_AUTH_ACTIVE=false
       - N8N_SECURE_COOKIE=false
     extra_hosts:

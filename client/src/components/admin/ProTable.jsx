@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Search, Edit, Trash2, Download, Filter, ChevronDown, MoreVertical, Plus, Loader2 } from 'lucide-react';
-
-const API_BASE_URL = 'http://localhost:8000';
+import { API_BASE_URL } from '../../config';
 
 const ProTable = ({ 
   apiUrl, 
@@ -101,8 +100,10 @@ const ProTable = ({
   }, [filterConfigs, data]);
 
   const filteredData = data.filter(item => {
-    // Search filter
-    const searchMatch = !searchTerm || (item[searchField] && item[searchField].toString().toLowerCase().includes(searchTerm.toLowerCase()));
+    // Search filter: Search across ALL fields of the object
+    const searchMatch = !searchTerm || Object.values(item).some(val => 
+      val && val.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    );
     
     // Active filters matching
     const filtersMatch = Object.entries(activeFilters).every(([field, value]) => {
@@ -127,8 +128,16 @@ const ProTable = ({
             placeholder={searchPlaceholder.toUpperCase()}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-black/20 border border-border/50 rounded-sm text-[10px] font-black uppercase tracking-[0.2em] focus:border-primary/50 focus:ring-0 outline-none text-foreground transition-all placeholder-gray-600"
+            className="w-full pl-12 pr-10 py-3 bg-black/20 border border-border/50 rounded-sm text-[10px] font-black uppercase tracking-[0.2em] focus:border-primary/50 focus:ring-0 outline-none text-foreground transition-all placeholder-gray-600"
           />
+          {searchTerm && (
+            <button 
+              onClick={() => setSearchTerm('')}
+              className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-primary transition-colors"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+          )}
           <div className="absolute bottom-0 left-0 h-[1px] w-0 bg-primary group-focus-within:w-full transition-all duration-500 shadow-[0_0_10px_hsl(var(--primary))]" />
         </div>
         
@@ -185,8 +194,8 @@ const ProTable = ({
         </div>
       </div>
 
-      {/* Futuristic Table HUD */}
-      <div className="overflow-x-auto custom-scrollbar">
+      {/* Futuristic Table HUD - Desktop */}
+      <div className="hidden lg:block overflow-x-auto custom-scrollbar">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-primary/[0.02] border-b border-border/30">
@@ -254,6 +263,50 @@ const ProTable = ({
             )}
           </tbody>
         </table>
+      </div>
+
+      {/* MOBILE VIEW - Card Layout */}
+      <div className="lg:hidden p-6 space-y-4">
+        {loading ? (
+          <div className="py-20 text-center flex flex-col items-center gap-4">
+            <Loader2 className="h-10 w-10 text-primary animate-spin" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-primary animate-pulse">Syncing Hub...</span>
+          </div>
+        ) : filteredData.length === 0 ? (
+          <div className="py-20 text-center text-[10px] font-black uppercase tracking-widest text-gray-500 italic">
+            Zero matches found in logs
+          </div>
+        ) : (
+          filteredData.map((row) => (
+            <div key={row.id} className="bg-black/20 border border-border/30 rounded-xl p-6 space-y-4 animate-in fade-in slide-in-from-right-4 duration-500">
+              {columns.map((col, idx) => (
+                <div key={idx} className="flex justify-between items-start gap-4">
+                  <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest flex items-center gap-2 shrink-0">
+                    <span className="w-1 h-1 bg-primary/40 rounded-full" />
+                    {col.header}
+                  </span>
+                  <div className="text-[11px] font-black text-foreground text-right truncate">
+                    {col.render ? col.render(row) : <span className="opacity-80">{row[col.key]}</span>}
+                  </div>
+                </div>
+              ))}
+              <div className="pt-4 mt-4 border-t border-border/20 flex justify-end gap-4">
+                <button 
+                  onClick={() => handleEdit(row.id)} 
+                  className="flex items-center gap-2 px-6 py-2.5 bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest rounded-lg"
+                >
+                  <Edit size={14} /> Edit
+                </button>
+                <button 
+                  onClick={() => handleDelete(row.id)} 
+                  className="flex items-center gap-2 px-6 py-2.5 bg-destructive/10 border border-destructive/20 text-destructive text-[10px] font-black uppercase tracking-widest rounded-lg"
+                >
+                  <Trash2 size={14} /> Purge
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
       
       {/* HUD Pagination Footer */}

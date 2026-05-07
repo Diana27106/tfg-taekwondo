@@ -160,8 +160,10 @@ const BlogPage = () => {
         )}
       </main>
 
-      {/* GALERÍA EXTRA */}
-      <GalleryCarousel />
+      {/* GALERÍA EXTRA - Oculta en móviles */}
+      <div className="hidden md:block">
+        <GalleryCarousel />
+      </div>
     </div>
   );
 };
