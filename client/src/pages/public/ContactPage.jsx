@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { API_BASE_URL } from '../../config';
 import dossierPdf from '../../assets/pdf/DOSSIER TKD SIERRA NEVADA.pdf';
 
 const Modal = ({ isOpen, onClose, title, message, isError }) => {
@@ -34,14 +38,15 @@ const Modal = ({ isOpen, onClose, title, message, isError }) => {
   );
 };
 
-const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    mensaje: '',
-    acepto: false,
-  });
+// Schema de validación con Yup
+const schema = yup.object().shape({
+  nombre: yup.string().required('El nombre es obligatorio').min(3, 'Mínimo 3 caracteres'),
+  email: yup.string().email('Introduce un email válido').required('El email es obligatorio'),
+  mensaje: yup.string().required('El mensaje no puede estar vacío').min(10, 'El mensaje debe tener al menos 10 caracteres'),
+  acepto: yup.boolean().oneOf([true], 'Debes aceptar las políticas de privacidad')
+});
 
+const ContactPage = () => {
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
     title: '',
@@ -51,46 +56,33 @@ const ContactPage = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  const handleReset = () => {
-    setFormData({ nombre: '', email: '', mensaje: '', acepto: false });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!formData.acepto) {
-      setModalConfig({
-        isOpen: true,
-        title: 'Error',
-        message: 'Debes aceptar las políticas de privacidad y los términos y condiciones.',
-        isError: true,
-      });
-      return;
+  // Inicialización de React Hook Form
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      nombre: '',
+      email: '',
+      mensaje: '',
+      acepto: false
     }
+  });
 
+  const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await fetch('http://localhost:8000/api/contact/', {
+      const response = await fetch(`${API_BASE_URL}/api/contact/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          nombre: formData.nombre,
-          email: formData.email,
-          mensaje: formData.mensaje,
+          nombre: data.nombre,
+          email: data.email,
+          mensaje: data.mensaje,
         }),
       });
 
-      const data = await response.json();
+      const result = await response.json();
 
       if (response.ok) {
         setModalConfig({
@@ -99,12 +91,12 @@ const ContactPage = () => {
           message: 'Tu mensaje ha sido enviado correctamente. Nos pondremos en contacto contigo lo antes posible.',
           isError: false,
         });
-        handleReset();
+        reset(); // Limpiar el formulario
       } else {
         setModalConfig({
           isOpen: true,
           title: 'Error al enviar',
-          message: data.error || 'Hubo un problema al enviar tu mensaje. Por favor, inténtalo de nuevo más tarde.',
+          message: result.error || 'Hubo un problema al enviar tu mensaje. Por favor, inténtalo de nuevo más tarde.',
           isError: true,
         });
       }
@@ -152,46 +144,40 @@ const ContactPage = () => {
             <h2 className="text-2xl font-bold text-center mb-2 uppercase tracking-tighter">Formulario de contacto</h2>
             <div className="h-0.5 bg-yellow-500 w-full mb-6"></div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <p className="font-bold text-gray-700">Registrate</p>
 
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-1">Nombre :</label>
                 <input
                   type="text"
-                  name="nombre"
-                  value={formData.nombre}
-                  onChange={handleChange}
+                  {...register('nombre')}
                   placeholder="Tu nombre"
-                  required
-                  className="w-full p-2 bg-gray-50 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                  className={`w-full p-2 bg-gray-50 border ${errors.nombre ? 'border-red-500' : 'border-gray-200'} focus:outline-none focus:ring-1 focus:ring-yellow-500`}
                 />
+                {errors.nombre && <p className="text-red-500 text-[10px] mt-1 font-bold italic">{errors.nombre.message}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-1">Correo Electrónico:</label>
                 <input
                   type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  {...register('email')}
                   placeholder="ejemplo@gmail.com"
-                  required
-                  className="w-full p-2 bg-yellow-50/30 border border-yellow-500/30 focus:outline-none focus:ring-1 focus:ring-yellow-500"
+                  className={`w-full p-2 bg-yellow-50/30 border ${errors.email ? 'border-red-500' : 'border-yellow-500/30'} focus:outline-none focus:ring-1 focus:ring-yellow-500`}
                 />
+                {errors.email && <p className="text-red-500 text-[10px] mt-1 font-bold italic">{errors.email.message}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-1">Mensaje</label>
                 <textarea
-                  name="mensaje"
+                  {...register('mensaje')}
                   rows="5"
-                  value={formData.mensaje}
-                  onChange={handleChange}
-                  placeholder="Escribe tu mensaje y añade los medios de contacto por el cual desee comunicarse: número de teléfono, correo electrónico o redes sociales."
-                  required
-                  className="w-full p-2 bg-gray-50 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-yellow-500 text-sm"
+                  placeholder="Escribe tu mensaje..."
+                  className={`w-full p-2 bg-gray-50 border ${errors.mensaje ? 'border-red-500' : 'border-gray-200'} focus:outline-none focus:ring-1 focus:ring-yellow-500 text-sm`}
                 ></textarea>
+                {errors.mensaje && <p className="text-red-500 text-[10px] mt-1 font-bold italic">{errors.mensaje.message}</p>}
               </div>
 
               <div className="flex flex-col space-y-4">
@@ -214,7 +200,7 @@ const ContactPage = () => {
                   </button>
                   <button
                     type="button"
-                    onClick={handleReset}
+                    onClick={() => reset()}
                     className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded shadow-sm transition"
                   >
                     Reestablecer
@@ -226,12 +212,10 @@ const ContactPage = () => {
                 <input
                   type="checkbox"
                   id="acepto"
-                  name="acepto"
-                  checked={formData.acepto}
-                  onChange={handleChange}
+                  {...register('acepto')}
                   className="text-yellow-500 focus:ring-yellow-500"
                 />
-                <label htmlFor="acepto" className="text-xs text-gray-600">
+                <label htmlFor="acepto" className={`text-xs ${errors.acepto ? 'text-red-600' : 'text-gray-600'}`}>
                   Acepto las <Link to="/politicas" className="text-yellow-600 font-bold hover:underline">Políticas de Privacidad</Link> y los <Link to="/terms" className="text-yellow-600 font-bold hover:underline">Términos y Condiciones</Link>
                 </label>
               </div>
@@ -267,8 +251,8 @@ const ContactPage = () => {
             </div>
           </div>
         </div>
-        {/* Sección del PDF (Dossier) */}
-        <div className="max-w-6xl mx-auto mt-12 bg-white/95 p-8 shadow-lg rounded-sm">
+        {/* Sección del PDF (Dossier) - Oculto en móviles */}
+        <div className="hidden md:block max-w-6xl mx-auto mt-12 bg-white/95 p-8 shadow-lg rounded-sm">
           <h2 className="text-2xl font-bold text-center mb-2 uppercase tracking-tighter">Dossier Informativo</h2>
           <div className="h-0.5 bg-yellow-500 w-full mb-6"></div>
           <div className="w-full h-[500px] md:h-[800px] bg-gray-100 rounded overflow-hidden">

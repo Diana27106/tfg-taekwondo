@@ -42,20 +42,20 @@ const PerseveranciaModal = ({ isOpen, onClose }) => {
                 </button>
 
                 {/* Icono Representativo (Montaña/Esfuerzo) */}
-                <div className="relative z-10 flex h-[280px] items-center justify-center pt-8">
-                    <Mountain size={120} strokeWidth={1.5} className="text-gray-900" />
+                <div className="relative z-10 flex h-[180px] md:h-[280px] items-center justify-center pt-6 md:pt-8">
+                    <Mountain size={100} strokeWidth={1.5} className="text-gray-900 transition-all md:scale-125" />
                 </div>
 
                 {/* Contenido de Texto */}
-                <div className="relative z-10 px-8 pb-16 pt-8 text-center">
+                <div className="relative z-10 px-6 md:px-8 pb-10 md:pb-16 pt-4 md:pt-8 text-center">
                     <style>{"@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');"}</style>
                     <h2
-                        className="text-[2.3rem] tracking-wide text-black font-semibold leading-tight mb-2"
+                        className="text-3xl md:text-5xl tracking-wide text-black font-semibold leading-tight mb-2"
                         style={{ fontFamily: "'Anta', sans-serif" }}
                     >
                         Perseverancia
                     </h2>
-                    <p className="text-sm font-bold tracking-[0.3em] text-blue-600 mb-8 uppercase opacity-90">
+                    <p className="text-xs md:text-sm font-bold tracking-[0.3em] text-blue-600 mb-6 md:mb-8 uppercase opacity-90">
                         [In-Nae]
                     </p>
 

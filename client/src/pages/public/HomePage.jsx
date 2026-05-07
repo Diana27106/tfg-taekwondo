@@ -39,10 +39,10 @@ const LandingPage = () => {
           <style>{"@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');"}</style>
           <h1 className="text-white text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight" style={{ fontFamily: "'Anta', sans-serif" }}>
             <span className="block">Bienvenidos a</span>
-            <span className="block mt-2 transition-colors duration-300 hover:text-yellow-500 cursor-default">
-              Taekwondo Sierra
+            <span className="block transition-colors duration-300 hover:text-yellow-500 cursor-default">
+              <span className="block mt-2">Taekwondo Sierra</span>
+              <span className="block mt-2">Nevada</span>
             </span>
-            <span className="block mt-2">Nevada</span>
           </h1>
           <p className="text-white mt-6 text-lg md:text-xl font-medium italic">
             Siempre un poco más y mejor
@@ -50,35 +50,78 @@ const LandingPage = () => {
         </div>
       </header>
 
-      {/* Section: Sobre Nosotros */}
-      <section className="w-full bg-white relative mt-24 mb-24">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-stretch">
-          {/* Texto (Lado izquierdo) */}
-          <div className="p-8 md:p-12 w-full md:w-1/2 flex flex-col justify-center order-2 md:order-1">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 border-b-2 border-gray-100 pb-2 inline-block self-start">
-              Sobre nosotros
-            </h2>
-            <p className="text-gray-600 leading-relaxed text-justify lg:text-left text-sm md:text-base">
-              En Taekwondo Sierra Nevada, nos dedicamos a formar no solo campeones,
-              sino también personas íntegras, comprometidas con su crecimiento personal
-              y deportivo. Nuestra misión es proporcionar una educación en Taekwondo
-              que trascienda las habilidades físicas, promoviendo los valores de disciplina,
-              respeto, esfuerzo y trabajo en equipo.
-            </p>
-            <p className="text-gray-600 mt-4 leading-relaxed hidden md:block text-sm md:text-base">
-              Creemos en el poder del deporte para transformar vidas, enseñando a nuestros
-              alumnos a superar sus propios límites y a enfrentar los retos con determinación.
-            </p>
+      {/* Section: Sobre Nosotros - Dual View (Desktop Original / Mobile Premium) */}
+      <section className="w-full relative mt-24 mb-32">
+        
+        {/* VISTA ESCRITORIO (Diseño Estilo SponsorsPage) */}
+        <div className="hidden md:flex bg-white p-16 flex-row-reverse items-stretch gap-10 font-sans">
+          {/* Contenedor de la Imagen (Derecha) */}
+          <div className="w-1/2 relative min-h-[400px] flex-shrink-0">
+            <div className="absolute top-[-80px] bottom-[-80px] left-0 right-0">
+              <img
+                src="../../../src/assets/img/medium/home.jpg"
+                alt="Competencia Taekwondo"
+                className="shadow-2xl object-cover w-full h-full"
+              />
+            </div>
           </div>
 
-          {/* Imagen (Lado derecho) sobresale 20px arriba y abajo */}
-          <div className="w-full md:w-1/2 px-4 md:px-8 order-1 md:order-2 flex flex-col relative z-10">
-            <img
-              src="../../../src/assets/img/medium/home.jpg"
-              alt="Competencia Taekwondo"
-              className="shadow-2xl rounded-sm w-full object-cover flex-grow"
-              style={{ marginTop: '-20px', marginBottom: '-20px', minHeight: '400px' }}
-            />
+          {/* Contenedor de Texto (Izquierda) */}
+          <div className="w-1/2 text-gray-800 flex flex-col justify-center pr-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 border-b-2 border-gray-100 pb-2 inline-block self-start">
+              Sobre nosotros
+            </h2>
+            <div className="space-y-4 text-gray-600 leading-relaxed text-justify text-sm md:text-base">
+              <p>
+                En Taekwondo Sierra Nevada, nos dedicamos a formar no solo campeones,
+                sino también personas íntegras, comprometidas con su crecimiento personal
+                y deportivo. Nuestra misión es proporcionar una educación en Taekwondo
+                que trascienda las habilidades físicas, promoviendo los valores de disciplina,
+                respeto, esfuerzo y trabajo en equipo.
+              </p>
+              <p>
+                Creemos en el poder del deporte para transformar vidas, enseñando a nuestros
+                alumnos a superar sus propios límites y a enfrentar los retos con determinación.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* VISTA MÓVIL (Diseño Premium Estilo AboutPage) */}
+        <div className="md:hidden max-w-6xl mx-auto px-4">
+          <div className="bg-white rounded-[2.5rem] shadow-[0_20px_80px_rgba(0,0,0,0.1)] border border-gray-100 overflow-hidden flex flex-col items-stretch">
+            
+            {/* Parte Visual e Identidad */}
+            <div className="bg-slate-50 p-10 flex flex-col items-center justify-center text-center relative">
+              <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-yellow-500 to-yellow-300"></div>
+              
+              <h2 className="text-3xl font-bold text-slate-800 mb-8 tracking-tight" style={{ fontFamily: 'Orbitron, sans-serif' }}>
+                Sobre nosotros
+              </h2>
+
+              <div className="w-full max-w-[320px] aspect-square rounded-3xl overflow-hidden shadow-2xl hover:shadow-yellow-500/20 transition-all duration-1000 border-[10px] border-white group">
+                <img
+                  src="../../../src/assets/img/medium/home.jpg"
+                  alt="Sobre Nosotros Taekwondo Sierra Nevada"
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
+                />
+              </div>
+            </div>
+
+            {/* Parte Narrativa */}
+            <div className="p-10 flex flex-col justify-center bg-white text-gray-800">
+              <div className="space-y-4 text-sm leading-relaxed text-justify">
+                <p>
+                  En <strong>Taekwondo Sierra Nevada</strong>, nos dedicamos a formar no solo campeones,
+                  sino también personas íntegras, comprometidas con su crecimiento personal
+                  y deportivo.
+                </p>
+                <p>
+                  Creemos en el poder del deporte para transformar vidas, enseñando a nuestros
+                  alumnos a superar sus propios límites y a enfrentar los retos con determinación.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -134,7 +177,7 @@ const LandingPage = () => {
             </div>
 
             {/* Imagen Principal (Derecha, 2/3) sobresale 10px arriba y abajo */}
-            <div className="lg:col-span-2 relative z-10 flex flex-col group" style={{ marginTop: '-10px', marginBottom: '-10px' }}>
+            <div className="hidden lg:flex lg:col-span-2 relative z-10 flex-col group" style={{ marginTop: '-10px', marginBottom: '-10px' }}>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white flex-grow h-full">
                 <img
                   src="../../../src/assets/img/medium/home2.jpg"

@@ -42,20 +42,20 @@ const AutocontrolModal = ({ isOpen, onClose }) => {
                 </button>
 
                 {/* Icono Representativo (Foco/Balance) */}
-                <div className="relative z-10 flex h-[280px] items-center justify-center pt-8">
-                    <Shield size={120} strokeWidth={1.5} className="text-red-700 opacity-90" />
+                <div className="relative z-10 flex h-[180px] md:h-[280px] items-center justify-center pt-6 md:pt-8">
+                    <Shield size={100} strokeWidth={1.5} className="text-red-700 opacity-90 transition-all md:scale-125" />
                 </div>
 
                 {/* Contenido de Texto */}
-                <div className="relative z-10 px-8 pb-16 pt-8 text-center">
+                <div className="relative z-10 px-6 md:px-8 pb-10 md:pb-16 pt-4 md:pt-8 text-center">
                     <style>{"@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');"}</style>
                     <h2
-                        className="text-[2.3rem] tracking-wide text-black font-semibold leading-tight mb-2"
+                        className="text-3xl md:text-5xl tracking-wide text-black font-semibold leading-tight mb-2"
                         style={{ fontFamily: "'Anta', sans-serif" }}
                     >
                         Autocontrol
                     </h2>
-                    <p className="text-sm font-bold tracking-[0.3em] text-red-600 mb-8 uppercase opacity-90">
+                    <p className="text-xs md:text-sm font-bold tracking-[0.3em] text-red-600 mb-6 md:mb-8 uppercase opacity-90">
                         [Guk-Gi]
                     </p>
 
