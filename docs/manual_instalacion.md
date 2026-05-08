@@ -90,6 +90,21 @@ Para encender todo, necesitamos **abrir 3 ventanas negras (Terminales) diferente
 3. Pulsa **Enter**. 
 4. *ATENCIÓN:* Verás barras descargando cosas. Como está descargando la Base de Datos Relacional (PostgreSQL) y el "Cerebro" de la Inteligencia Artificial (Ollama), **puede tardar entre 5 y 15 minutos**. Ve a tomarte un café. No toques nada hasta que veas que pone "Done" (Hecho) en todas las líneas.
 
+### PASO EXTRA: Configuración Interna de los Contenedores
+A veces los contenedores necesitan un empujón manual para estar listos:
+
+1. **Descargar los Modelos de IA (Ollama):**
+   Abre una terminal y escribe esto para entrar al "cerebro" y descargar los modelos necesarios:
+   ```bash
+   docker exec -it tfg-taekwondo-ollama ollama pull llama3
+   docker exec -it tfg-taekwondo-ollama ollama pull mxbai-embed-large
+   ```
+2. **Activar las tablas de la Base de Datos (PostgreSQL):**
+   Para asegurarnos de que el Chatbot puede guardar las conversaciones, escribe esto:
+   ```bash
+   docker exec -it tfg-taekwondo-postgres psql -U admin -d taekwondodb -f /docker-entrypoint-initdb.d/init.sql
+   ```
+
 ### VENTANA NEGRA 2: Encender el Sistema Gestor (Django)
 1. Abre una **NUEVA ventana negra** (Inicio -> busca `cmd` o abre otra Terminal).
 2. Tienes que ir a la carpeta del servidor. Escribe esto pulsando Enter al final de cada línea:
@@ -156,7 +171,14 @@ Tenemos que enseñarle a la IA cómo debe hablar. Para ello usaremos n8n, el orq
 6. Dentro de esa carpeta, busca una que se llama `n8n-workflows`.
 7. Selecciona el archivo que termine en `.json` (el archivo del workflow del chatbot) y ábrelo.
 8. Verás cómo aparece una red de conexiones increíble en tu pantalla. 
-9. IMPORTANTE: Arriba a la derecha, activa el interruptor que dice **"Active"** o **"Inactive"** para encenderlo, y haz clic en el botón de guardar (Save). ¡La IA ya está conectada al sistema!
+9. **Configurar Credenciales (MUY IMPORTANTE):**
+   Aunque hayas importado el flujo, n8n necesita saber *cómo* entrar a Ollama y a la Base de Datos:
+   * Busca en el menú de la izquierda el icono de una llave (**"Credentials"**).
+   * Pulsa en **"Add Credential"**.
+   * Busca **"Ollama"**. En la URL pon: `http://host.docker.internal:11434`.
+   * Busca **"Postgres"**. Pon los datos que configuraste en el `.env` (Host: `host.docker.internal`, Port: `5433`, User: `admin`, Pass: `admin`, DB: `taekwondodb`).
+   * Vuelve al Workflow, haz clic en los nodos que tengan un aviso rojo y selecciona las credenciales que acabas de crear.
+10. IMPORTANTE: Arriba a la derecha, activa el interruptor que dice **"Active"** o **"Inactive"** para encenderlo, y haz clic en el botón de guardar (Save). ¡La IA ya está conectada al sistema!
 
 ---
 
