@@ -37,7 +37,7 @@ El sistema utiliza el administrador nativo de Django para una gestión de seguri
 ### Copias de Seguridad (Backups)
 Se recomienda realizar una copia de seguridad semanal de la base de datos PostgreSQL:
 ```bash
-docker exec -t nombre_contenedor_db pg_dumpall -c -U admin > backup_fecha.sql
+docker exec -t tfg-taekwondo-postgres pg_dumpall -c -U admin > backup_fecha.sql
 ```
 
 ### Gestión de Documentos IA (RAG)

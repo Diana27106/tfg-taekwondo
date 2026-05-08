@@ -90,17 +90,17 @@ Para encender todo, necesitamos **abrir 3 ventanas negras (Terminales) diferente
 3. Pulsa **Enter**. 
 4. *ATENCIÓN:* Verás barras descargando cosas. Como está descargando la Base de Datos Relacional (PostgreSQL) y el "Cerebro" de la Inteligencia Artificial (Ollama), **puede tardar entre 5 y 15 minutos**. Ve a tomarte un café. No toques nada hasta que veas que pone "Done" (Hecho) en todas las líneas.
 
-### PASO EXTRA: Configuración Interna de los Contenedores
-A veces los contenedores necesitan un empujón manual para estar listos:
+### PASO EXTRA: Verificación de los Contenedores
+Aunque la configuración es automática, aquí tienes cómo verificar que todo esté listo:
 
-1. **Descargar los Modelos de IA (Ollama):**
-   Abre una terminal y escribe esto para entrar al "cerebro" y descargar los modelos necesarios:
+1. **Modelos de IA (Ollama):**
+   El sistema descarga automáticamente los modelos al arrancar. Si quieres comprobarlo o forzar la descarga de los modelos específicos configurados en el `.env`, usa:
    ```bash
-   docker exec -it tfg-taekwondo-ollama ollama pull llama3
-   docker exec -it tfg-taekwondo-ollama ollama pull mxbai-embed-large
+   docker exec -it tfg-taekwondo-ollama ollama pull smollm2:1.7b
+   docker exec -it tfg-taekwondo-ollama ollama pull nomic-embed-text
    ```
-2. **Activar las tablas de la Base de Datos (PostgreSQL):**
-   Para asegurarnos de que el Chatbot puede guardar las conversaciones, escribe esto:
+2. **Base de Datos (PostgreSQL):**
+   La base de datos se inicializa sola la primera vez. Si por algún motivo necesitas recrear las tablas del chatbot manualmente, puedes ejecutar:
    ```bash
    docker exec -it tfg-taekwondo-postgres psql -U admin -d taekwondodb -f /docker-entrypoint-initdb.d/init.sql
    ```
