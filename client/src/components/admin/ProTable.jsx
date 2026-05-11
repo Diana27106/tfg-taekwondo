@@ -4,6 +4,21 @@ import axios from 'axios';
 import { Search, Edit, Trash2, Download, Filter, ChevronDown, MoreVertical, Plus, Loader2 } from 'lucide-react';
 import { API_BASE_URL } from '../../config';
 
+/**
+ * Tabla Pro (ProTable).
+ * Componente genérico para visualización de datos en el área de administración.
+ * Soporta filtrado automático, búsqueda, paginación, edición y borrado.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} props.apiUrl - Endpoint de la API para obtener los datos.
+ * @param {string} [props.entityName='Elemento'] - Nombre de la entidad.
+ * @param {string} props.routePath - Ruta base para navegación (crear/editar).
+ * @param {Array} [props.columns=[]] - Configuración de las columnas a mostrar.
+ * @param {string} [props.searchPlaceholder='Buscar...'] - Placeholder del input de búsqueda.
+ * @param {string} [props.searchField='name'] - Campo por el cual filtrar inicialmente.
+ * @param {Array} [props.filterConfigs=[]] - Configuración de los filtros disponibles [{ label, field, optionsApi }].
+ */
 const ProTable = ({ 
   apiUrl, 
   entityName = 'Elemento', 

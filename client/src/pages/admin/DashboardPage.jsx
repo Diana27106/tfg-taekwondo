@@ -18,6 +18,12 @@ import {
   ArrowDownRight
 } from 'lucide-react';
 
+/**
+ * Página del Panel de Control (Dashboard).
+ * Muestra estadísticas generales del sistema y los últimos registros de actividad.
+ * 
+ * @component
+ */
 const DashboardPage = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState([

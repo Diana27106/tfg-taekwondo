@@ -2,6 +2,12 @@ import React from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { MessageSquare, Bot, Send } from 'lucide-react';
 
+/**
+ * Página de configuración del Chatbot.
+ * Permite gestionar los documentos de conocimiento y visualizar las consultas de los usuarios.
+ * 
+ * @component
+ */
 const ChatbotPage = () => {
   return (
     <AdminLayout>

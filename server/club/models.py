@@ -3,6 +3,15 @@ from django.utils.text import slugify
 
 # 1. INSTRUCTOR (Relación 1:N con Group)
 class Instructor(models.Model):
+    """
+    Representa a un instructor del club.
+    
+    Attributes:
+        name (str): Nombre completo del instructor.
+        rank (str): Grado o Dan (ej: 4º DAN).
+        bio (str): Biografía corta o descripción del perfil profesional.
+        photo (ImageField): Foto de perfil para mostrar en la web pública.
+    """
     name = models.CharField(max_length=100, verbose_name="Nombre Completo")
     rank = models.CharField(max_length=50, verbose_name="Grado (Dan)")
     bio = models.TextField(verbose_name="Biografía")
@@ -13,6 +22,16 @@ class Instructor(models.Model):
 
 # 2. LOCATION (Relación N:M con Group)
 class Location(models.Model):
+    """
+    Representa una sede física donde se imparten las clases.
+    
+    Attributes:
+        name (str): Nombre comercial de la sede.
+        address (str): Dirección completa.
+        city (str): Ciudad donde se ubica.
+        google_maps_url (URLField): Enlace opcional a Google Maps para geolocalización.
+        photo (ImageField): Imagen representativa de la sede.
+    """
     name = models.CharField(max_length=100, verbose_name="Nombre de la Sede")
     address = models.CharField(max_length=200, verbose_name="Dirección")
     city = models.CharField(max_length=100, verbose_name="Ciudad")
@@ -24,6 +43,16 @@ class Location(models.Model):
 
 # 3. GROUP (El núcleo de la lógica)
 class Group(models.Model):
+    """
+    Representa un grupo de entrenamiento (clase).
+    Es la entidad central que vincula instructores con sedes y horarios.
+    
+    Attributes:
+        age_range (str): Rango de edad del grupo (ej: Infantiles, Juveniles).
+        schedule (str): Descripción del horario (ej: Martes y Jueves 17:00).
+        instructor (ForeignKey): El instructor responsable de este grupo.
+        locations (ManyToManyField): Las sedes donde este grupo entrena.
+    """
     age_range = models.CharField(max_length=50, verbose_name="Rango de Edad (ej: 6-12 años)")
     schedule = models.CharField(max_length=100, verbose_name="Horario (ej: L-X 17:00)")
     
@@ -39,6 +68,17 @@ class Group(models.Model):
 
 # 4. EVENTOS
 class Event(models.Model):
+    """
+    Representa un evento próximo (campeonato, seminario, examen).
+    
+    Attributes:
+        title (str): Nombre del evento.
+        description (str): Detalles adicionales.
+        start_date (DateTimeField): Cuándo empieza.
+        end_date (DateTimeField): Cuándo termina.
+        registration_link (URLField): Enlace externo para inscripciones.
+        location (str): Descripción textual del lugar del evento.
+    """
     title = models.CharField(max_length=200, verbose_name="Título del Evento")
     description = models.TextField(blank=True, verbose_name="Descripción")
     start_date = models.DateTimeField(verbose_name="Fecha Inicio")
@@ -79,6 +119,15 @@ class ChatDocument(models.Model):
 
 # 5. SPONSORS
 class Sponsor(models.Model):
+    """
+    Empresa patrocinadora o colaboradora del club.
+    
+    Attributes:
+        name (str): Nombre de la empresa.
+        logo (ImageField): Imagen del logo.
+        website (URLField): Enlace a su sitio web oficial.
+        is_active (bool): Controla si aparece o no en la web pública.
+    """
     name = models.CharField(max_length=100, verbose_name="Empresa")
     logo = models.ImageField(upload_to='sponsors/', verbose_name="Logo")
     website = models.URLField(blank=True, verbose_name="URL Web")
@@ -89,6 +138,17 @@ class Sponsor(models.Model):
 
 # 6. NEWS
 class News(models.Model):
+    """
+    Noticia o entrada del blog.
+    
+    Attributes:
+        title (str): Título de la noticia.
+        slug (SlugField): Identificador amigable para URLs.
+        published_at (DateTimeField): Fecha de creación.
+        img1 (ImageField): Imagen principal.
+        img2 (ImageField): Imagen secundaria opcional.
+        content (str): Texto completo de la noticia.
+    """
     title = models.CharField(max_length=200, verbose_name="Título")
     slug = models.SlugField(unique=True, blank=True)
     published_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha")

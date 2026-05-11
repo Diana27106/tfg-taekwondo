@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Calendar as CalendarIcon, ExternalLink, X, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 
+/**
+ * Página de Patrocinadores (Sponsors).
+ * Muestra el carrusel de patrocinadores y un calendario de eventos próximos.
+ * Soporta internacionalización (ES/EN).
+ * 
+ * @component
+ */
 const SponsorsPage = () => {
   const [lang, setLang] = useState('es');
   const [sponsors, setSponsors] = useState([]);

@@ -4,6 +4,12 @@ import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, Newspaper, FileText, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Edición de Noticias.
+ * Permite actualizar el contenido y las imágenes de una noticia publicada.
+ * 
+ * @component
+ */
 const EditarNoticiaPage = () => {
   const navigate = useNavigate();
   const location = useLocation();

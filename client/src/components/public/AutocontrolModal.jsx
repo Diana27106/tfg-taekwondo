@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { X, Shield } from 'lucide-react';
 
+/**
+ * Modal informativo sobre el principio de Autocontrol.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {boolean} props.isOpen - Indica si el modal está abierto.
+ * @param {function} props.onClose - Función para cerrar el modal.
+ */
 const AutocontrolModal = ({ isOpen, onClose }) => {
     const [show, setShow] = useState(false);
     const [render, setRender] = useState(false);

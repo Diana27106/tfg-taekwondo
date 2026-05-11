@@ -6,6 +6,12 @@ import axios from 'axios';
 import logo from '../../assets/img/logos/logoFBlanco.png';
 import heroImage from '../../assets/img/large/heroLogin.jpg';
 
+/**
+ * Página de Inicio de Sesión (Login).
+ * Autentica a los instructores y administradores para acceder al panel de control.
+ * 
+ * @component
+ */
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');

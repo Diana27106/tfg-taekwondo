@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { AlertTriangle, WifiOff, X, CheckCircle, Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Gestor de Mensajes de Feedback.
+ * Muestra alertas sobre el estado de la conexión, validez del token y otros avisos del sistema.
+ * 
+ * @component
+ */
 const FeedbackMessages = () => {
   const navigate = useNavigate();
   const [showTokenBanner, setShowTokenBanner] = useState(false);

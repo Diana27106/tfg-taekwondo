@@ -2,6 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Plus, Trash2, Users, Clock, User, Loader2, X, Check, Search } from 'lucide-react';
 
+/**
+ * Gestor de Grupos por Sede.
+ * Permite vincular, desvincular y crear grupos asociados a una sede específica.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {number|string} props.locationId - ID de la sede a la que pertenecen los grupos.
+ * @param {function} props.onGroupsChange - Función de callback cuando los grupos cambian.
+ */
 const GroupManager = ({ locationId, onGroupsChange }) => {
   const [groups, setGroups] = useState([]);
   const [instructors, setInstructors] = useState([]);

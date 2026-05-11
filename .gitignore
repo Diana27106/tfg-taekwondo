@@ -1,7 +1,21 @@
+# Secretos y Entorno
+.env
+db.sqlite3
+n8n-workflows/client_secret_*.json
+
+# Dependencias y Binarios
 node_modules/
 venv/
 __pycache__/
-.env
+*.pyc
 .DS_Store
-db.sqlite3
-n8n-workflows/client_secret_*.json
+
+# Documentación Generada (NO subir a GitHub, se genera en CI/CD)
+site/
+docs/frontend-gen/
+
+# Otros
+.idea/
+.vscode/
+dist/
+build/

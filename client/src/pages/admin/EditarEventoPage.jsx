@@ -4,6 +4,12 @@ import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Calendar, Clock, MapPin, Link as LinkIcon, FileText, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Edición de Eventos.
+ * Permite modificar los detalles de un evento registrado.
+ * 
+ * @component
+ */
 const EditarEventoPage = () => {
   const navigate = useNavigate();
   const location = useLocation();

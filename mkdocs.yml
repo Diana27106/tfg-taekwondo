@@ -1,0 +1,39 @@
+site_name: Taekwondo Club Documentation
+theme:
+  name: material
+  palette:
+    primary: indigo
+    accent: indigo
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          paths: [server]
+          options:
+            show_source: true
+            show_root_heading: true
+
+nav:
+  - Home: index.md
+  - Manuales:
+    - Instalación: manual_instalacion.md
+    - Administración: manual_administracion.md
+    - Usuario: manual_usuario.md
+  - Proyecto:
+    - Estructura: project_structure.md
+    - Modelo de Datos: database_model.md
+  - Código (Backend):
+    - Club Views: backend/club_views.md
+    - Club Models: backend/club_models.md
+    - Club Serializers: backend/club_serializers.md
+    - Club Admin: backend/club_admin.md
+    - Core Auth: backend/core_auth.md
+  - Código (Frontend):
+    - Guía JSDoc: frontend/jsdoc_guide.md

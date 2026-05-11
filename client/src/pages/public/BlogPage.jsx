@@ -8,6 +8,16 @@ import GalleryCarousel from '../../components/public/GalleryCarousel';
 const API_URL = 'http://127.0.0.1:8000/api/news/?format=json';
 const PLACEHOLDER_IMG = 'https://via.placeholder.com/800x600?text=TKD+Sierra+Nevada';
 
+/**
+ * Componente de página para el Blog de noticias del club.
+ * Muestra las noticias en una cuadrícula asimétrica y permite descargarlas en PDF.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <BlogPage />
+ * )
+ */
 const BlogPage = () => {
   const [news, setNews] = useState([]);
   const [visibleCount, setVisibleCount] = useState(4);
@@ -18,6 +28,12 @@ const BlogPage = () => {
     fetchNews();
   }, []);
 
+  /**
+   * Obtiene las noticias desde la API de Django.
+   * Ordena los resultados por fecha de creación descendente.
+   * @async
+   * @function fetchNews
+   */
   const fetchNews = async () => {
     setLoading(true);
     try {
@@ -37,6 +53,11 @@ const BlogPage = () => {
     }
   };
 
+  /**
+   * Formatea una cadena de fecha a un formato legible en español.
+   * @param {string} dateString - La fecha en formato ISO o similar.
+   * @returns {string} Fecha formateada (ej. "11 de mayo de 2026").
+   */
   const formatDate = (dateString) => {
     if (!dateString) return "Reciente";
     const date = new Date(dateString);

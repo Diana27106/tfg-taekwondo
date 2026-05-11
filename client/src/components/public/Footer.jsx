@@ -1,6 +1,12 @@
 import React from 'react';
 import { Instagram, Facebook, Music2 } from 'lucide-react'; // Music2 se usa para TikTok habitualmente
 
+/**
+ * Componente de pie de página (Footer).
+ * Contiene información de contacto, enlaces legales y enlaces rápidos a secciones del sitio.
+ * 
+ * @component
+ */
 const Footer = () => {
   const hoverStyles = "hover:underline hover:text-[#FFF0D4] transition-colors duration-200";
 

@@ -4,6 +4,12 @@ import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, User, Award, FileText, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Edición de Instructores.
+ * Permite modificar los datos de un instructor existente.
+ * 
+ * @component
+ */
 const EditarInstructorPage = () => {
   const navigate = useNavigate();
   const location = useLocation();

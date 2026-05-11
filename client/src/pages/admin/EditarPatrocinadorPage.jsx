@@ -4,6 +4,12 @@ import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, Award, Globe, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Edición de Patrocinadores.
+ * Permite modificar los datos y el logo de un patrocinador.
+ * 
+ * @component
+ */
 const EditarPatrocinadorPage = () => {
   const navigate = useNavigate();
   const location = useLocation();

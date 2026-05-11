@@ -4,6 +4,12 @@ import ProTable from '../../components/admin/ProTable';
 import { MapPin, Plus, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Página de Gestión de Sedes (Locations).
+ * Administra los lugares físicos donde se imparten las clases.
+ * 
+ * @component
+ */
 const SedesPage = () => {
   const navigate = useNavigate();
 

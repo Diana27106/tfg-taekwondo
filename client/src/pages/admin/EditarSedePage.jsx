@@ -5,6 +5,12 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import GroupManager from '../../components/admin/GroupManager';
 import { ArrowLeft, Save, Upload, MapPin, Home, Globe, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Edición de Sedes.
+ * Permite actualizar la información de una sede y gestionar sus grupos.
+ * 
+ * @component
+ */
 const EditarSedePage = () => {
   const navigate = useNavigate();
   const location = useLocation();

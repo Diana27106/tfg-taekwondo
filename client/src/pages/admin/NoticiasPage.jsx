@@ -4,6 +4,12 @@ import ProTable from '../../components/admin/ProTable';
 import { Newspaper, Plus, Image as ImageIcon, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Página de Gestión de Noticias.
+ * Lista las noticias del blog y permite realizar operaciones CRUD sobre ellas.
+ * 
+ * @component
+ */
 const NoticiasPage = () => {
   const navigate = useNavigate();
 

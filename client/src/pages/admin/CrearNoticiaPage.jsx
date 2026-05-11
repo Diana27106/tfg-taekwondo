@@ -4,6 +4,12 @@ import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, Newspaper, FileText, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Creación de Noticias.
+ * Formulario para publicar nuevas noticias en el blog del club.
+ * 
+ * @component
+ */
 const CrearNoticiaPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);

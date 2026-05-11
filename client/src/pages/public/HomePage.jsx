@@ -4,6 +4,12 @@ import axios from 'axios';
 import Navbar from '../../components/public/Navbar';
 import FeaturableWidget from '../../components/public/FeaturableWidget';
 
+/**
+ * Página Principal (Landing Page).
+ * Sección de bienvenida, presentación de servicios, noticias destacadas y patrocinadores.
+ * 
+ * @component
+ */
 const LandingPage = () => {
   // Estado para almacenar los patrocinadores desde la BBDD
   const [patrocinadores, setPatrocinadores] = useState([]);

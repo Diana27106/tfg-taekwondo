@@ -4,6 +4,12 @@ import ProTable from '../../components/admin/ProTable';
 import { Users, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Página de Gestión de Instructores.
+ * Permite visualizar el equipo docente, editar sus perfiles y añadir nuevos miembros.
+ * 
+ * @component
+ */
 const InstructoresPage = () => {
   const navigate = useNavigate();
 

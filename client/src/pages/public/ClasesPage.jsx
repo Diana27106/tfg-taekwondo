@@ -2,6 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
+/**
+ * Página de Clases y Horarios.
+ * Muestra información sobre las sedes, grupos y tipos de clases ofrecidas.
+ * Incluye un carrusel de tipos de clases y acordeones para cada sede.
+ * 
+ * @component
+ */
 const ClasesPage = () => {
     const [locations, setLocations] = useState([]);
     const [groups, setGroups] = useState([]);

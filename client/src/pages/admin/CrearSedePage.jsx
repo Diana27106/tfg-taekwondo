@@ -5,6 +5,12 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import GroupManager from '../../components/admin/GroupManager';
 import { ArrowLeft, Save, Upload, MapPin, Home, Globe, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Creación de Sedes.
+ * Formulario para registrar nuevos centros de entrenamiento.
+ * 
+ * @component
+ */
 const CrearSedePage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);

@@ -3,6 +3,13 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Calendar, ArrowLeft, Clock, Share2, Tag, Download } from 'lucide-react';
 
+/**
+ * Página de Detalle de Noticia.
+ * Muestra el contenido completo de una noticia seleccionada mediante su slug.
+ * Permite compartir la noticia y descargar el PDF.
+ * 
+ * @component
+ */
 const NoticiaDetailPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();

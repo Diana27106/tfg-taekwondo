@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { Settings, Lock, Save, User, Key, CheckCircle, AlertCircle } from 'lucide-react';
 
+/**
+ * Página de Configuración de Usuario.
+ * Permite actualizar el perfil del administrador y cambiar la contraseña.
+ * 
+ * @component
+ */
 const SettingsPage = () => {
     const [profile, setProfile] = useState({
         username: '',

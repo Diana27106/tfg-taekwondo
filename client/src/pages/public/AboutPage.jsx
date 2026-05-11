@@ -7,6 +7,13 @@ import PerseveranciaModal from '../../components/public/PerseveranciaModal';
 import AutocontrolModal from '../../components/public/AutocontrolModal';
 import EspirituIndomableModal from '../../components/public/EspirituModal';
 
+/**
+ * Página "Sobre Nosotros".
+ * Presenta la historia de la escuela, los principios del Taekwondo y el equipo de instructores.
+ * Incluye integración con Instagram y modales informativos para cada principio.
+ * 
+ * @component
+ */
 const AboutPage = () => {
   const [instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(true);

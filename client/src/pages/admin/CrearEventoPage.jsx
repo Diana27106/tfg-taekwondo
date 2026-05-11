@@ -4,6 +4,12 @@ import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Calendar, Clock, MapPin, Link as LinkIcon, FileText, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Creación de Eventos.
+ * Proporciona un formulario para registrar nuevos eventos en el sistema.
+ * 
+ * @component
+ */
 const CrearEventoPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);

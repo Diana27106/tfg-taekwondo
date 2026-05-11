@@ -46,6 +46,12 @@ const schema = yup.object().shape({
   acepto: yup.boolean().oneOf([true], 'Debes aceptar las políticas de privacidad')
 });
 
+/**
+ * Página de Contacto.
+ * Permite a los usuarios enviar mensajes al club y descargar el dossier informativo.
+ * 
+ * @component
+ */
 const ContactPage = () => {
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,

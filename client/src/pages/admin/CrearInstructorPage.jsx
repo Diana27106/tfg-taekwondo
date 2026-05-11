@@ -4,6 +4,12 @@ import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, User, Award, FileText, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Creación de Instructores.
+ * Permite añadir nuevos instructores al equipo, incluyendo foto y biografía.
+ * 
+ * @component
+ */
 const CrearInstructorPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);

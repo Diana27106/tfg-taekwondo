@@ -2,6 +2,17 @@ import React from 'react';
 import { X, Send } from 'lucide-react';
 import botImg from '../../assets/img/small/ChatBot.png';
 
+/**
+ * Componente de interfaz del Chatbot.
+ * Gestiona la visualización de mensajes y la entrada de texto del usuario.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {function} props.onClose - Función para cerrar la ventana del chat.
+ * @param {Array} props.messages - Lista de mensajes a mostrar.
+ * @param {function} props.onSend - Función para enviar un nuevo mensaje.
+ * @param {boolean} props.isLoading - Estado de carga mientras el bot responde.
+ */
 const ChatBot = ({ onClose, messages, onSend, isLoading }) => {
   const [input, setInput] = React.useState('');
 

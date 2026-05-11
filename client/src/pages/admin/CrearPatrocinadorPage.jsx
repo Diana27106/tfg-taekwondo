@@ -4,6 +4,12 @@ import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, Award, Globe, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Creación de Patrocinadores.
+ * Permite dar de alta nuevas empresas colaboradoras.
+ * 
+ * @component
+ */
 const CrearPatrocinadorPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
