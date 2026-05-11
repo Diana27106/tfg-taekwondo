@@ -1,4 +1,4 @@
-# 11.4. Manual de Administración
+# Manual de Administración
 
 Este manual está dirigido exclusivamente a los gestores del club y personal técnico encargado de mantener actualizado el contenido de la plataforma.
 
