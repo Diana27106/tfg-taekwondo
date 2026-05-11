@@ -1,0 +1,324 @@
+{
+  "name": "Consulta RAG",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.chatInput }}",
+        "options": {
+          "systemMessage": "=Eres Young-Su AI, el águila mascota oficial de la escuela de Taekwondo Sierra Nevada.\n\nTu personalidad:\n- Amigable, motivadora y respetuosa\n- Cercana tanto con niños como con adultos\n- Energética y positiva\n- Hablas de forma natural y clara\n- Explicas las cosas de manera sencilla\n- Te apasiona el Taekwondo, la disciplina, el esfuerzo y la superación personal\n\nTu estilo:\n- Respuestas cortas y útiles\n- Usa ocasionalmente emojis relacionados con artes marciales o energía (🥋🦅🔥)\n- Nunca uses un tono robótico\n- Habla como una mascota inteligente y entrenadora\n\nNormas IMPORTANTES:\n- Nunca inventes información\n- Usa únicamente la información proporcionada en el CONTEXTO\n- Si no sabes algo, dilo claramente\n- No respondas preguntas fuera del ámbito de la escuela\n\nCONTEXTO:\n\nPREGUNTA DEL USUARIO:\n{{ $json.body.chatInput }}\n\nRESPUESTA:"
+        }
+      },
+      "id": "f8ea69c1-8f14-450b-a9a7-829c0150aaf7",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        592,
+        -48
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "model": "mistral:7b",
+        "options": {}
+      },
+      "id": "0c5d26c9-25b8-4110-80ec-1da8ffc9545a",
+      "name": "Ollama Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "position": [
+        432,
+        208
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "ollamaApi": {
+          "id": "m48oM0elZ99nNNMW",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "1"
+      },
+      "id": "522c1a59-8d33-4607-9b58-b1179b1d3bab",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        640,
+        208
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "retriever",
+        "toolDescription": "Retrieve data from a semantic database to answer questions",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "reglamento_taekwondo",
+          "mode": "list",
+          "cachedResultName": "reglamento_taekwondo"
+        },
+        "options": {}
+      },
+      "id": "80f54a0b-ab43-4cd8-a37e-7f16216bdd0f",
+      "name": "Qdrant Vector Store1",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "position": [
+        784,
+        208
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "qdrantApi": {
+          "id": "3MJ42sxLsvYeCwBI",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "id": "b20042c6-4d6c-4954-8c05-d65a53780b71",
+      "name": "Embeddings Ollama1",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "position": [
+        784,
+        384
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "ollamaApi": {
+          "id": "m48oM0elZ99nNNMW",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "consultas_rag",
+          "mode": "list",
+          "cachedResultName": "consultas_rag"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "respuesta": "={{ $json.output }}",
+            "pregunta": "={{ $('Webhook').item.json.body.chatInput }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "pregunta",
+              "displayName": "pregunta",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "respuesta",
+              "displayName": "respuesta",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "documentos_usados",
+              "displayName": "documentos_usados",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1168,
+        -48
+      ],
+      "id": "d333cec2-506f-4e90-95d7-589a2b16101f",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "c2InIJBRWnrOdF6K",
+          "name": "Postgres account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chatbot-rag",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "738548b6-6ab3-4b8d-bd07-2140797e25ae",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        352,
+        -48
+      ],
+      "webhookId": "7bae17f0-b23f-40a9-9530-ef85b9e6b82f"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        960,
+        -48
+      ],
+      "id": "bf5e9885-8626-43f9-90f2-d14e31e8ba9b",
+      "name": "Respond to Webhook1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert rows in a table": {
+      "main": [
+        []
+      ]
+    },
+    "Respond to Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "19d4a324-3d2c-497a-a93d-13c36b3a30bc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "16465810ae3e24c06821d3f01cdcb985a463a2c221c1f737f28952ff1a4e527b"
+  },
+  "id": "plFMZYALENocf9WGp6Zy6",
+  "tags": []
+}

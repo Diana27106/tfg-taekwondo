@@ -1,4 +1,4 @@
-# 11.3. Manual de Usuario
+# Manual de Usuario
 
 Este manual está diseñado para que los alumnos, padres y visitantes del club de Taekwondo comprendan cómo navegar y utilizar las funcionalidades públicas de la aplicación.
 

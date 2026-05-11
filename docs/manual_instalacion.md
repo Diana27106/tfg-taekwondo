@@ -1,4 +1,4 @@
-# Manual de Instalación Definitivo (Paso a Paso desde Cero)
+# Manual de Instalación
 
 ## FASE 1: Descargar los 4 Programas Necesarios
 
