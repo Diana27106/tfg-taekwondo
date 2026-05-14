@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // Import Assets
-import logo from '../../assets/img/logos/logoFBlanco.png';
-import heroImage from '../../assets/img/large/heroLogin.jpg';
+const logo = '/assets/img/logos/logoFBlanco.png';
+const botImg = '/assets/img/small/ChatBot.png';
+const heroImage = '/assets/img/large/heroLogin.jpg';
 
 /**
  * Página de Inicio de Sesión (Login).

@@ -1,5 +1,5 @@
 import React from 'react';
-import botImg from '../../assets/img/small/ChatBot.png';
+const botImg = '/assets/img/small/ChatBot.png';
 
 const ChatBtn = ({ onClick }) => {
   return (
