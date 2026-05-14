@@ -117,8 +117,8 @@ if 'test' in sys.argv:
         'NAME': ':memory:',
     }
     EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
-    ADMIN_EMAIL = 'admin@test.com'
-    DEFAULT_FROM_EMAIL = 'web@test.com'
+    ADMINS = [("Diana Radu", ["raduddiaale27@gmail.com"])]
+    DEFAULT_FROM_EMAIL = "raduddiaale27@gmail.com"
 
 
 # Password validation
