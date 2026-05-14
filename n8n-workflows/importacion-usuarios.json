@@ -1,0 +1,96 @@
+{
+  "name": "Importación de Usuarios desde Google Sheets",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "TU_ID_DE_GOOGLE_SHEET",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Hoja1",
+          "mode": "name"
+        },
+        "resolveData": true,
+        "options": {}
+      },
+      "id": "7d9b9c1a-8e2b-4c3d-9f4e-5a6b7c8d9e0f",
+      "name": "Google Sheets Trigger",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://server:8000/api/import-users/",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "username",
+              "value": "={{ $node[\"Google Sheets Trigger\"].json[\"username\"] }}"
+            },
+            {
+              "name": "email",
+              "value": "={{ $node[\"Google Sheets Trigger\"].json[\"email\"] }}"
+            },
+            {
+              "name": "first_name",
+              "value": "={{ $node[\"Google Sheets Trigger\"].json[\"first_name\"] }}"
+            },
+            {
+              "name": "last_name",
+              "value": "={{ $node[\"Google Sheets Trigger\"].json[\"last_name\"] }}"
+            },
+            {
+              "name": "password",
+              "value": "={{ $node[\"Google Sheets Trigger\"].json[\"password\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        500,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "hash": "...",
+  "id": "...",
+  "meta": {
+    "instanceId": "..."
+  }
+}

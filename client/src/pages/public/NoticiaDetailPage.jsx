@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Calendar, ArrowLeft, Clock, Share2, Tag } from 'lucide-react';
+import { Calendar, ArrowLeft, Clock, Share2, Tag, Download } from 'lucide-react';
 
 const NoticiaDetailPage = () => {
   const { slug } = useParams();
@@ -128,6 +128,13 @@ const NoticiaDetailPage = () => {
               >
                 Compartir <Share2 size={16} />
               </button>
+              <a 
+                href={`http://127.0.0.1:8000/api/news/${newsItem.slug}/pdf/`}
+                download
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-yellow-500 transition-colors"
+              >
+                Descargar PDF <Download size={16} />
+              </a>
             </div>
           </div>
 

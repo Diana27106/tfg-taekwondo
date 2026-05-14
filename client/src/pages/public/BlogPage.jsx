@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Calendar, ArrowRight, RefreshCw, Newspaper } from 'lucide-react';
+import { Calendar, ArrowRight, RefreshCw, Newspaper, Download } from 'lucide-react';
 import GalleryCarousel from '../../components/public/GalleryCarousel';
 
 // Configuración - Idealmente en un archivo .env
@@ -135,9 +135,23 @@ const BlogPage = () => {
                       {item.title}
                     </h3>
 
-                    <div className="mt-6 flex items-center text-white/70 gap-3 font-bold text-[10px] uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
-                      <span className="text-yellow-500">Seguir leyendo</span>
-                      <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform" />
+                    <div className="mt-6 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                      <div className="flex items-center text-white/70 gap-3 font-bold text-[10px] uppercase tracking-[0.2em]">
+                        <span className="text-yellow-500">Seguir leyendo</span>
+                        <ArrowRight size={14} className="group-hover:translate-x-2 transition-transform" />
+                      </div>
+                      
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          window.open(`http://127.0.0.1:8000/api/news/${item.slug}/pdf/`, '_blank');
+                        }}
+                        className="p-2 bg-yellow-500 text-black hover:bg-white transition-colors rounded-sm flex items-center justify-center group/btn"
+                        title="Descargar PDF"
+                      >
+                        <Download size={14} />
+                      </button>
                     </div>
                   </div>
                 </Link>

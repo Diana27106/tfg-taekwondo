@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+from pathlib import Path
 from dotenv import load_dotenv
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 # Load .env from project root
 load_dotenv(os.path.join(BASE_DIR, '../.env'))
@@ -23,6 +28,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-default-key')
 DEBUG = os.getenv('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -149,8 +156,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173", # El puerto por defecto de Vite/React
 ]
-
-import os
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -9,6 +9,17 @@ from django.contrib.admin.models import LogEntry
 from django.contrib.contenttypes.models import ContentType
 import requests
 import json
+import io
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+from xhtml2pdf import pisa
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User, Group
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.core.mail import EmailMessage
+from django.shortcuts import redirect
 
 class InstructorViewSet(viewsets.ModelViewSet):
     queryset = Instructor.objects.all()
@@ -163,3 +174,108 @@ class ChangePasswordView(APIView):
         user.set_password(new_password)
         user.save()
         return Response({"message": "Contraseña actualizada correctamente"}, status=status.HTTP_200_OK)
+
+class NewsPDFView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, slug):
+        news = get_object_or_404(News, slug=slug)
+        
+        # Prepare context for the template
+        context = {
+            'news': news,
+            'image_url': request.build_absolute_uri(news.img1.url) if news.img1 else None
+        }
+        
+        # Render HTML to string
+        html_string = render_to_string('club/news_pdf.html', context)
+        
+        # Create PDF
+        result = io.BytesIO()
+        pdf = pisa.pisaDocument(io.BytesIO(html_string.encode("UTF-8")), result)
+        
+        if not pdf.err:
+            response = HttpResponse(result.getvalue(), content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{news.slug}.pdf"'
+            return response
+        
+        return Response({"error": "Error al generar el PDF"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class UserImportView(APIView):
+    # En producción deberías proteger esto con una API Key o restricción de IP
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        data = request.data
+        username = data.get('username')
+        email = data.get('email')
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        password = data.get('password')
+
+        if not all([username, email, password]):
+            return Response({"error": "Faltan campos obligatorios (username, email, password)"}, status=status.HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(username=username).exists():
+            return Response({"error": f"El usuario {username} ya existe"}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            # Crear usuario inactivo por defecto para validación de email
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+                is_active=False
+            )
+
+            # Asignar al grupo "Instructors"
+            group, created = Group.objects.get_or_create(name='Instructors')
+            user.groups.add(group)
+
+            # Generar token de verificación
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            
+            # Construir link de verificación
+            # Nota: Cambia esto por tu URL real en producción
+            domain = request.build_absolute_uri('/')[:-1]
+            verify_url = f"{domain}/api/verify-email/{uid}/{token}/"
+
+            # Enviar Email
+            subject = "Verifica tu cuenta - Club Taekwondo"
+            message = render_to_string('club/verify_email.html', {
+                'user': user,
+                'verify_url': verify_url,
+            })
+            
+            email_msg = EmailMessage(subject, message, settings.DEFAULT_FROM_EMAIL, [email])
+            email_msg.content_subtype = "html"
+            email_msg.send()
+
+            return Response({
+                "message": f"Usuario {username} creado. Se ha enviado un correo de verificación.",
+                "user_id": user.id
+            }, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({"error": f"Error al importar usuario: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class VerifyEmailView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, uidb64, token):
+        try:
+            uid = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+
+        if user is not None and default_token_generator.check_token(user, token):
+            user.is_active = True
+            user.save()
+            # Redirigir al login del frontend con un parámetro de éxito
+            return redirect('http://localhost:5173/login?verified=true')
+        else:
+            return Response({"error": "El link de verificación es inválido o ha expirado."}, status=status.HTTP_400_BAD_REQUEST)
