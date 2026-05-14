@@ -116,6 +116,9 @@ if 'test' in sys.argv:
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ':memory:',
     }
+    EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+    ADMIN_EMAIL = 'admin@test.com'
+    DEFAULT_FROM_EMAIL = 'web@test.com'
 
 
 # Password validation
