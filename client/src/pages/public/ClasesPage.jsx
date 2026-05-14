@@ -20,19 +20,19 @@ const ClasesPage = () => {
             title: "Infantil",
             description: "Clases dinámicas que potencian la coordinación, el respeto, la confianza y la disciplina, todo ello con un enfoque divertido.",
             price: "35 €",
-            image: "../../../src/assets/img/small/clases/claseInfantil.jpg"
+            image: "/assets/img/small/clases/claseInfantil.jpg"
         },
         {
             title: "Adultos",
             description: "Clases dinámicas que potencian la coordinación, el respeto, la confianza y la disciplina, todo ello con un enfoque divertido.",
             price: "35 €",
-            image: "../../../src/assets/img/small/clases/claseAdultos.jpg"
+            image: "/assets/img/small/clases/claseAdultos.jpg"
         },
         {
             title: "Competición",
             description: "Clases dinámicas que potencian la coordinación, el respeto, la confianza y la disciplina, todo ello con un enfoque divertido.",
             price: "35 €",
-            image: "../../../src/assets/img/small/clases/claseCompeticion.jpg"
+            image: "/assets/img/small/clases/claseCompeticion.jpg"
         }
     ];
 
@@ -95,7 +95,7 @@ const ClasesPage = () => {
             <div className="relative w-full h-56 md:h-80 bg-gray-700 flex items-center justify-center overflow-hidden shadow-2xl mb-10">
                 <div
                     className="absolute inset-0 bg-cover bg-center opacity-50 mix-blend-overlay"
-                    style={{ backgroundImage: "url('../../../src/assets/img/large/heroClases.jpg')" }}
+                    style={{ backgroundImage: "url('/assets/img/large/heroClases.jpg')" }}
                 ></div>
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-700/40"></div>
                 <style>{"@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');"}</style>

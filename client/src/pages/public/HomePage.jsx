@@ -37,7 +37,7 @@ const LandingPage = () => {
         {/* Background Image con Overlay */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/src/assets/img/large/heroHomeContact.jpg')" }}
+          style={{ backgroundImage: "url('/assets/img/large/heroHomeContact.jpg')" }}
         >
           <div className="absolute inset-0 bg-blue-900/40 mix-blend-multiply"></div>
         </div>
@@ -66,7 +66,7 @@ const LandingPage = () => {
           <div className="w-1/2 relative min-h-[400px] flex-shrink-0">
             <div className="absolute top-[-80px] bottom-[-80px] left-0 right-0">
               <img
-                src="../../../src/assets/img/medium/home.jpg"
+                src="/assets/img/medium/home.jpg"
                 alt="Competencia Taekwondo"
                 className="shadow-2xl object-cover w-full h-full"
               />
@@ -108,7 +108,7 @@ const LandingPage = () => {
 
               <div className="w-full max-w-[320px] aspect-square rounded-3xl overflow-hidden shadow-2xl hover:shadow-yellow-500/20 transition-all duration-1000 border-[10px] border-white group">
                 <img
-                  src="../../../src/assets/img/medium/home.jpg"
+                  src="/assets/img/medium/home.jpg"
                   alt="Sobre Nosotros Taekwondo Sierra Nevada"
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
                 />
@@ -187,7 +187,7 @@ const LandingPage = () => {
             <div className="hidden lg:flex lg:col-span-2 relative z-10 flex-col group" style={{ marginTop: '-10px', marginBottom: '-10px' }}>
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white flex-grow h-full">
                 <img
-                  src="../../../src/assets/img/medium/home2.jpg"
+                  src="/assets/img/medium/home2.jpg"
                   alt="Entrenamiento Taekwondo"
                   className="w-full h-[400px] lg:h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />

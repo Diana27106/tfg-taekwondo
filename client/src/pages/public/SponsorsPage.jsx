@@ -141,7 +141,7 @@ const SponsorsPage = () => {
       <div className="relative w-full h-64 md:h-80 bg-gray-700 flex items-center justify-center overflow-hidden shadow-2xl">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-50 mix-blend-overlay"
-          style={{ backgroundImage: "url('../../../src/assets/img/large/heroSponsors.jpg')" }}
+          style={{ backgroundImage: "url('/assets/img/large/heroSponsors.jpg')" }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-700/40"></div>
         
@@ -312,7 +312,7 @@ const SponsorsPage = () => {
       <section className="w-full mt-12 mb-32">
         <div className="hidden md:flex bg-white p-16 flex-row-reverse items-stretch gap-10 font-sans">
           <div className="w-1/2 relative min-h-[400px] flex-shrink-0">
-            <div className="absolute top-[-80px] bottom-[-80px] left-0 right-0"><img src="../../../src/assets/img/medium/sponsors.jpg" alt="Sponsors" className="shadow-2xl object-cover w-full h-full" /></div>
+            <div className="absolute top-[-80px] bottom-[-80px] left-0 right-0"><img src="/assets/img/medium/sponsors.jpg" alt="Sponsors" className="shadow-2xl object-cover w-full h-full" /></div>
           </div>
           <div className="w-1/2 text-gray-800 flex flex-col justify-center">
             <div className="mb-12">
@@ -342,7 +342,7 @@ const SponsorsPage = () => {
             <div className="bg-slate-50 p-10 flex flex-col items-center justify-center text-center relative">
               <div className="absolute top-0 left-0 w-full h-3 bg-gradient-to-r from-amber-500 to-amber-300"></div>
               <h2 className="text-3xl font-bold text-slate-800 mb-8 tracking-tight" style={{ fontFamily: 'Orbitron, sans-serif' }}>{t.joinTitle}</h2>
-              <div className="w-full max-w-[320px] aspect-square rounded-3xl overflow-hidden shadow-2xl border-[10px] border-white group"><img src="../../../src/assets/img/medium/sponsors.jpg" alt="Sponsors" className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" /></div>
+              <div className="w-full max-w-[320px] aspect-square rounded-3xl overflow-hidden shadow-2xl border-[10px] border-white group"><img src="/assets/img/medium/sponsors.jpg" alt="Sponsors" className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000" /></div>
             </div>
             <div className="p-10 flex flex-col justify-center bg-white text-gray-800">
               <div className="space-y-8">

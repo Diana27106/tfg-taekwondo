@@ -56,7 +56,7 @@ function App() {
               {/* Backgrounds (fixed) */}
               <div
                 className="fixed inset-0 bg-cover bg-center"
-                style={{ backgroundImage: "url('/src/assets/img/large/background.jpg')" }}
+                style={{ backgroundImage: "url('/assets/img/large/background.jpg')" }}
               ></div>
               <div className="fixed inset-0 bg-white/75"></div>
 

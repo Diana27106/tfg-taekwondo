@@ -129,7 +129,7 @@ const ContactPage = () => {
       <div className="relative w-full h-56 md:h-80 bg-gray-700 flex items-center justify-center overflow-hidden shadow-2xl">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-50 mix-blend-overlay"
-          style={{ backgroundImage: "url('../../../src/assets/img/large/heroBlog.jpg')" }}
+          style={{ backgroundImage: "url('/assets/img/large/heroBlog.jpg')" }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-700/40"></div>
         <style>{"@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');"}</style>

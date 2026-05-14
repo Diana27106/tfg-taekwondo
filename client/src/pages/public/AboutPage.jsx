@@ -87,7 +87,7 @@ const AboutPage = () => {
       <div className="relative w-full h-56 md:h-80 bg-gray-700 flex items-center justify-center overflow-hidden shadow-2xl">
         <div
           className="absolute inset-0 bg-cover bg-center opacity-50 mix-blend-overlay"
-          style={{ backgroundImage: "url('../../../src/assets/img/large/heroAbout.jpg')" }}
+          style={{ backgroundImage: "url('/assets/img/large/heroAbout.jpg')" }}
         ></div>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-700/40"></div>
         <style>{"@import url('https://fonts.googleapis.com/css2?family=Anta&display=swap');"}</style>
@@ -108,7 +108,7 @@ const AboutPage = () => {
           <div className="w-1/2 relative min-h-[400px] flex-shrink-0">
             <div className="absolute top-[-80px] bottom-[-80px] left-0 right-0">
               <img
-                src="../../../src/assets/img/medium/historia.jpg"
+                src="/assets/img/medium/historia.jpg"
                 alt="Historia de la Escuela"
                 className="shadow-2xl object-cover w-full h-full"
               />
@@ -157,7 +157,7 @@ const AboutPage = () => {
 
               <div className="w-full max-w-[320px] aspect-square rounded-3xl overflow-hidden shadow-2xl border-[10px] border-white group">
                 <img
-                  src="../../../src/assets/img/medium/historia.jpg"
+                  src="/assets/img/medium/historia.jpg"
                   alt="Historia Taekwondo Sierra Nevada"
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-1000"
                 />
