@@ -18,7 +18,7 @@ resource "aws_security_group" "eks_cluster" {
 resource "aws_eks_cluster" "this" {
   name     = var.cluster_name
   role_arn = "arn:aws:iam::654654433904:role/LabRole"
-  version  = "1.29"
+  version  = "1.30"
 
 
   vpc_config {
@@ -33,7 +33,7 @@ resource "aws_eks_node_group" "tfg_nodes" {
   node_group_name = "tfg-nodes"
   node_role_arn   = "arn:aws:iam::654654433904:role/LabRole"
   subnet_ids      = module.vpc.private_subnets
-  version         = "1.29"
+  version         = "1.30"
 
 
   scaling_config {
