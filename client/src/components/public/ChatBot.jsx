@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, Send } from 'lucide-react';
-import botImg from '../../assets/img/small/ChatBot.png';
+const botImg = '/assets/img/small/ChatBot.png';
 
 /**
  * Componente de interfaz del Chatbot.
