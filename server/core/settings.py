@@ -111,15 +111,7 @@ DATABASES = {
     }
 }
 
-if 'test' in sys.argv:
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
-    }
-    EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
-    ADMINS = [("Diana Radu", ["raduddiaale27@gmail.com"])]
-    DEFAULT_FROM_EMAIL = "raduddiaale27@gmail.com"
-    ADMIN_EMAIL = "raduddiaale27@gmail.com"
+
 
 
 # Password validation
@@ -185,3 +177,14 @@ ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
 
 # Chatbot n8n Webhook
 N8N_CHATBOT_WEBHOOK = os.getenv('N8N_CHATBOT_WEBHOOK', 'http://localhost:5678/webhook/chatbot-rag')
+
+# --- TEST CONFIGURATION ---
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
+    EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+    ADMINS = [("Diana Radu", ["raduddiaale27@gmail.com"])]
+    DEFAULT_FROM_EMAIL = "raduddiaale27@gmail.com"
+    ADMIN_EMAIL = "raduddiaale27@gmail.com"
