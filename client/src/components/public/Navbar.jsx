@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Componente de navegación principal (Navbar).
+ * Incluye enlaces a las secciones públicas y el botón de acceso al área de administración.
+ * Soporta diseño responsivo con menú hamburguesa para móviles.
+ * 
+ * @component
+ */
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 

@@ -1,9 +1,16 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, Newspaper, FileText, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Edición de Noticias.
+ * Permite actualizar el contenido y las imágenes de una noticia publicada.
+ * 
+ * @component
+ */
 const EditarNoticiaPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,11 +33,11 @@ const EditarNoticiaPage = () => {
       try {
         const token = localStorage.getItem('token');
         const config = token ? { headers: { Authorization: `Token ${token}` } } : {};
-        const response = await axios.get(`http://localhost:8000/api/news/${id}/`, config);
+        const response = await axios.get(`${API_BASE_URL}/news/${id}/`, config);
         const { title, content, img1, img2 } = response.data;
         setFormData({ title, content, img1: null, img2: null });
-        if (img1) setPreviews(prev => ({ ...prev, img1: `http://localhost:8000${img1}` }));
-        if (img2) setPreviews(prev => ({ ...prev, img2: `http://localhost:8000${img2}` }));
+        if (img1) setPreviews(prev => ({ ...prev, img1: `${BASE_URL}${img1}` }));
+        if (img2) setPreviews(prev => ({ ...prev, img2: `${BASE_URL}${img2}` }));
       } catch (err) {
         console.error(err);
         navigate('/admin/noticias');
@@ -71,7 +78,7 @@ const EditarNoticiaPage = () => {
           ...(token ? { Authorization: `Token ${token}` } : {})
         }
       };
-      await axios.patch(`http://localhost:8000/api/news/${id}/`, data, config);
+      await axios.patch(`${API_BASE_URL}/news/${id}/`, data, config);
       navigate('/admin/noticias');
     } catch (error) {
       console.error(error);

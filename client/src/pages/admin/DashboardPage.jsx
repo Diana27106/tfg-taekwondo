@@ -1,3 +1,4 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
@@ -18,6 +19,12 @@ import {
   ArrowDownRight
 } from 'lucide-react';
 
+/**
+ * Página del Panel de Control (Dashboard).
+ * Muestra estadísticas generales del sistema y los últimos registros de actividad.
+ * 
+ * @component
+ */
 const DashboardPage = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState([
@@ -33,7 +40,7 @@ const DashboardPage = () => {
     const fetchDashboardData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:8000/api/stats/', {
+        const response = await fetch(`${API_BASE_URL}/stats/`, {
           headers: {
             'Authorization': `Token ${token}`
           }
@@ -93,8 +100,8 @@ const DashboardPage = () => {
       const headers = { 'Authorization': `Token ${token}` };
 
       const [instructorsRes, locationsRes] = await Promise.all([
-        fetch('http://localhost:8000/api/instructors/', { headers }),
-        fetch('http://localhost:8000/api/locations/', { headers })
+        fetch(`${API_BASE_URL}/instructors/`, { headers }),
+        fetch(`${API_BASE_URL}/locations/`, { headers })
       ]);
 
       const instructors = await instructorsRes.json();
@@ -254,7 +261,7 @@ const DashboardPage = () => {
                       <div className="relative group/avatar">
                         <div className="absolute -inset-1 bg-primary/20 rounded-full blur-md opacity-0 group-hover/avatar:opacity-100 transition duration-500"></div>
                         {row.photo ? (
-                          <img src={`http://localhost:8000${row.photo}`} alt={row.name} className="relative h-12 w-12 rounded-full object-cover border border-border/50 group-hover/avatar:border-primary/50 transition-colors" />
+                          <img src={`${BASE_URL}${row.photo}`} alt={row.name} className="relative h-12 w-12 rounded-full object-cover border border-border/50 group-hover/avatar:border-primary/50 transition-colors" />
                         ) : (
                           <div className="relative h-12 w-12 rounded-full bg-black/40 text-primary border border-border/50 flex items-center justify-center font-black text-sm uppercase group-hover/avatar:border-primary/50 transition-colors">
                             {row.name ? row.name.charAt(0).toUpperCase() : '?'}

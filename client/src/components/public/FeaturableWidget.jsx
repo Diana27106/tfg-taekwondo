@@ -2,6 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
 
+/**
+ * Widget de reseñas de Google (Featurable).
+ * Muestra un carrusel de reseñas obtenidas externamente.
+ * 
+ * @component
+ */
 const FeaturableWidget = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);

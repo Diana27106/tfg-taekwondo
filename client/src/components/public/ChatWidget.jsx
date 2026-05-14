@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import ChatBtn from './ChatBtn';
 import ChatBot from './ChatBot';
 
+/**
+ * Widget de Chat Flotante.
+ * Gestiona el estado de apertura y la comunicación con el componente ChatBot.
+ * 
+ * @component
+ */
 const ChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);

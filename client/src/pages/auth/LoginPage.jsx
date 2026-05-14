@@ -1,3 +1,4 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -6,6 +7,12 @@ import axios from 'axios';
 import logo from '../../assets/img/logos/logoFBlanco.png';
 import heroImage from '../../assets/img/large/heroLogin.jpg';
 
+/**
+ * Página de Inicio de Sesión (Login).
+ * Autentica a los instructores y administradores para acceder al panel de control.
+ * 
+ * @component
+ */
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -16,7 +23,7 @@ const LoginPage = () => {
     e.preventDefault();
     setError('');
     try {
-      const response = await axios.post('http://localhost:8000/api/login/', { username, password });
+      const response = await axios.post(`${API_BASE_URL}/login/`, { username, password });
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('username', username);

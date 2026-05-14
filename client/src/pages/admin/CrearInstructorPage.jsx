@@ -1,9 +1,16 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, User, Award, FileText, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Creación de Instructores.
+ * Permite añadir nuevos instructores al equipo, incluyendo foto y biografía.
+ * 
+ * @component
+ */
 const CrearInstructorPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -48,7 +55,7 @@ const CrearInstructorPage = () => {
           ...(token ? { Authorization: `Token ${token}` } : {})
         }
       };
-      await axios.post('http://localhost:8000/api/instructors/', data, config);
+      await axios.post(`${API_BASE_URL}/instructors/`, data, config);
       navigate('/admin/instructores');
     } catch (error) {
       console.error('Error creating instructor:', error);

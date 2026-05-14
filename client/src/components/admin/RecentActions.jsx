@@ -10,6 +10,14 @@ import {
   AlertCircle 
 } from 'lucide-react';
 
+/**
+ * Lista de Acciones Recientes.
+ * Muestra un historial de los últimos eventos ocurridos en el sistema de administración.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Array} props.logs - Lista de logs de actividad.
+ */
 const RecentActions = ({ logs = [] }) => {
   // Map actions if logs are provided, otherwise use fallback
   const displayActions = logs.length > 0 ? logs.slice(0, 5) : [

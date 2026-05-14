@@ -1,9 +1,16 @@
+import { BASE_URL } from '../../config';
 import React from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import ProTable from '../../components/admin/ProTable';
 import { Newspaper, Plus, Image as ImageIcon, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Página de Gestión de Noticias.
+ * Lista las noticias del blog y permite realizar operaciones CRUD sobre ellas.
+ * 
+ * @component
+ */
 const NoticiasPage = () => {
   const navigate = useNavigate();
 
@@ -65,7 +72,7 @@ const NoticiasPage = () => {
                       <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover/news:opacity-100 transition-opacity z-10" />
                       <div className="relative h-14 w-24 rounded-sm bg-black/40 border border-border/30 flex items-center justify-center group-hover/news:border-primary/50 transition-colors overflow-hidden">
                         {row.img1 ? (
-                          <img src={`http://localhost:8000${row.img1}`} alt={row.title} className="w-full h-full object-cover grayscale group-hover/news:grayscale-0 transition-all duration-500" />
+                          <img src={`${BASE_URL}${row.img1}`} alt={row.title} className="w-full h-full object-cover grayscale group-hover/news:grayscale-0 transition-all duration-500" />
                         ) : (
                           <ImageIcon size={20} className="text-gray-600" />
                         )}

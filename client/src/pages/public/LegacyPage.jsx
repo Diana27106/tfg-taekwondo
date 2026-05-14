@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * Página de Aviso Legal.
+ * Contiene la información legal obligatoria sobre el titular del sitio web.
+ * 
+ * @component
+ */
 const LegacyPage = () => {
   return (
     <div>

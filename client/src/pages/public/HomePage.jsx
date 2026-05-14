@@ -1,9 +1,16 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../../components/public/Navbar';
 import FeaturableWidget from '../../components/public/FeaturableWidget';
 
+/**
+ * Página Principal (Landing Page).
+ * Sección de bienvenida, presentación de servicios, noticias destacadas y patrocinadores.
+ * 
+ * @component
+ */
 const LandingPage = () => {
   // Estado para almacenar los patrocinadores desde la BBDD
   const [patrocinadores, setPatrocinadores] = useState([]);
@@ -12,7 +19,7 @@ const LandingPage = () => {
     // Aquí debes hacer la llamada real a tu API/Base de datos
     const fetchPatrocinadores = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/sponsors/');
+        const response = await axios.get(`${API_BASE_URL}/sponsors/`);
         setPatrocinadores(response.data);
       } catch (error) {
         console.error("Error al cargar los patrocinadores:", error);

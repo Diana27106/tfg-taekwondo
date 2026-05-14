@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_BASE_URL } from '../../config';
 import { Calendar, ArrowLeft, Clock, Share2, Tag, Download } from 'lucide-react';
 
+/**
+ * Página de Detalle de Noticia.
+ * Muestra el contenido completo de una noticia seleccionada mediante su slug.
+ * Permite compartir la noticia y descargar el PDF.
+ * 
+ * @component
+ */
 const NoticiaDetailPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -18,7 +26,7 @@ const NoticiaDetailPage = () => {
         // podríamos tener que filtrar de la lista, pero asumimos un endpoint de detalle.
         // Nota: Si el backend usa IDs en el endpoint, pero slugs en la URL, 
         // aquí deberíamos adaptar la lógica. 
-        const response = await axios.get(`http://127.0.0.1:8000/api/news/${slug}/`);
+        const response = await axios.get(`${API_BASE_URL}/news/${slug}/`);
         setNewsItem(response.data);
       } catch (err) {
         console.error("Error fetching news detail:", err);
@@ -129,7 +137,7 @@ const NoticiaDetailPage = () => {
                 Compartir <Share2 size={16} />
               </button>
               <a 
-                href={`http://127.0.0.1:8000/api/news/${newsItem.slug}/pdf/`}
+                href={`${API_BASE_URL}/news/${newsItem.slug}/pdf/`}
                 download
                 className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-yellow-500 transition-colors"
               >

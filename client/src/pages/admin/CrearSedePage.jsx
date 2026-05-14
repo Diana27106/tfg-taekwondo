@@ -1,3 +1,4 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -5,6 +6,12 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import GroupManager from '../../components/admin/GroupManager';
 import { ArrowLeft, Save, Upload, MapPin, Home, Globe, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Creación de Sedes.
+ * Formulario para registrar nuevos centros de entrenamiento.
+ * 
+ * @component
+ */
 const CrearSedePage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -51,7 +58,7 @@ const CrearSedePage = () => {
           ...(token ? { Authorization: `Token ${token}` } : {})
         }
       };
-      const response = await axios.post('http://localhost:8000/api/locations/', data, config);
+      const response = await axios.post(`${API_BASE_URL}/locations/`, data, config);
       const newId = response.data.id;
       // Navigate to edit page to allow adding groups
       navigate(`/admin/sedes/editar?id=${newId}`);

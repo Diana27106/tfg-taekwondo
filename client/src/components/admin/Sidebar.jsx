@@ -14,6 +14,15 @@ import {
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
+/**
+ * Componente de barra lateral (Sidebar) para la administración.
+ * Contiene los enlaces de navegación a las differentes entidades del sistema.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {boolean} props.isOpen - Estado de apertura del sidebar en móviles.
+ * @param {function} props.toggleSidebar - Función para abrir/cerrar el sidebar.
+ */
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const username = localStorage.getItem('username') || 'Usuario';
   const location = useLocation();

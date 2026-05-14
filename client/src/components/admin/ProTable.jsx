@@ -1,9 +1,24 @@
+import { BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Search, Edit, Trash2, Download, Filter, ChevronDown, MoreVertical, Plus, Loader2 } from 'lucide-react';
-import { API_BASE_URL } from '../../config';
 
+/**
+ * Tabla Pro (ProTable).
+ * Componente genérico para visualización de datos en el área de administración.
+ * Soporta filtrado automático, búsqueda, paginación, edición y borrado.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {string} props.apiUrl - Endpoint de la API para obtener los datos.
+ * @param {string} [props.entityName='Elemento'] - Nombre de la entidad.
+ * @param {string} props.routePath - Ruta base para navegación (crear/editar).
+ * @param {Array} [props.columns=[]] - Configuración de las columnas a mostrar.
+ * @param {string} [props.searchPlaceholder='Buscar...'] - Placeholder del input de búsqueda.
+ * @param {string} [props.searchField='name'] - Campo por el cual filtrar inicialmente.
+ * @param {Array} [props.filterConfigs=[]] - Configuración de los filtros disponibles [{ label, field, optionsApi }].
+ */
 const ProTable = ({ 
   apiUrl, 
   entityName = 'Elemento', 
@@ -26,7 +41,7 @@ const ProTable = ({
       try {
         const token = localStorage.getItem('token');
         const config = token ? { headers: { Authorization: `Token ${token}` } } : {};
-        await axios.delete(`${API_BASE_URL}${apiUrl}${id}/`, config);
+        await axios.delete(`${BASE_URL}${apiUrl}${id}/`, config);
         setData(data.filter(item => item.id !== id));
       } catch (error) {
         console.error(`Error deleting ${entityName}:`, error);
@@ -55,7 +70,7 @@ const ProTable = ({
       try {
         const token = localStorage.getItem('token');
         const config = token ? { headers: { Authorization: `Token ${token}` } } : {};
-        const response = await axios.get(`${API_BASE_URL}${apiUrl}`, config);
+        const response = await axios.get(`${BASE_URL}${apiUrl}`, config);
         setData(response.data);
       } catch (error) {
         console.error(`Error fetching ${entityName}:`, error);
@@ -77,7 +92,7 @@ const ProTable = ({
       for (const config_item of filterConfigs) {
         if (config_item.optionsApi) {
           try {
-            const response = await axios.get(`${API_BASE_URL}${config_item.optionsApi}`, config);
+            const response = await axios.get(`${BASE_URL}${config_item.optionsApi}`, config);
             // Assuming the API returns a list of objects or strings
             // If objects, we might need a specific field, but let's assume it's a list for now
             // or extract unique values from the main data if no API

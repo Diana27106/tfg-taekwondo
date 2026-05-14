@@ -1,9 +1,16 @@
+import { BASE_URL } from '../../config';
 import React from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import ProTable from '../../components/admin/ProTable';
 import { MapPin, Plus, ExternalLink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Página de Gestión de Sedes (Locations).
+ * Administra los lugares físicos donde se imparten las clases.
+ * 
+ * @component
+ */
 const SedesPage = () => {
   const navigate = useNavigate();
 
@@ -59,7 +66,7 @@ const SedesPage = () => {
                     <div className="relative group/img overflow-hidden">
                       <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover/img:opacity-100 transition-opacity z-10" />
                       {row.photo ? (
-                        <img src={`http://localhost:8000${row.photo}`} alt={row.name} className="relative h-14 w-20 rounded-sm object-cover border border-border/30 group-hover/img:border-primary/50 transition-colors" />
+                        <img src={`${BASE_URL}${row.photo}`} alt={row.name} className="relative h-14 w-20 rounded-sm object-cover border border-border/30 group-hover/img:border-primary/50 transition-colors" />
                       ) : (
                         <div className="relative h-14 w-20 rounded-sm bg-black/40 text-primary border border-border/30 flex items-center justify-center group-hover/img:border-primary/50 transition-colors">
                           <MapPin size={20} className="opacity-40" />

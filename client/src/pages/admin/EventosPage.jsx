@@ -4,6 +4,12 @@ import ProTable from '../../components/admin/ProTable';
 import { Calendar, Plus, Clock, MapPin, Link as LinkIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Página de Gestión de Eventos.
+ * Lista todos los eventos registrados y permite acceder a la creación, edición y borrado.
+ * 
+ * @component
+ */
 const EventosPage = () => {
   const navigate = useNavigate();
 

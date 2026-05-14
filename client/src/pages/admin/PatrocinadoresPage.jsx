@@ -1,9 +1,16 @@
+import { BASE_URL } from '../../config';
 import React from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import ProTable from '../../components/admin/ProTable';
 import { Award, Plus, ExternalLink, ShieldCheck, ShieldX } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Página de Gestión de Patrocinadores.
+ * Permite administrar las empresas colaboradoras que aparecen en el sitio público.
+ * 
+ * @component
+ */
 const PatrocinadoresPage = () => {
   const navigate = useNavigate();
 
@@ -57,7 +64,7 @@ const PatrocinadoresPage = () => {
                       <div className="absolute -inset-1 bg-primary/20 rounded-sm blur-md opacity-0 group-hover/logo:opacity-100 transition duration-500"></div>
                       <div className="relative h-14 w-14 rounded-sm bg-black/40 border border-border/30 flex items-center justify-center p-3 group-hover/logo:border-primary/50 transition-colors">
                         {row.logo ? (
-                          <img src={`http://localhost:8000${row.logo}`} alt={row.name} className="w-full h-full object-contain grayscale group-hover/logo:grayscale-0 transition-all duration-500" />
+                          <img src={`${BASE_URL}${row.logo}`} alt={row.name} className="w-full h-full object-contain grayscale group-hover/logo:grayscale-0 transition-all duration-500" />
                         ) : (
                           <Award size={20} className="text-gray-600" />
                         )}

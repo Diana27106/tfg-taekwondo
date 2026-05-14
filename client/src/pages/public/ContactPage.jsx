@@ -1,9 +1,9 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { API_BASE_URL } from '../../config';
 import dossierPdf from '../../assets/pdf/DOSSIER TKD SIERRA NEVADA.pdf';
 
 const Modal = ({ isOpen, onClose, title, message, isError }) => {
@@ -46,6 +46,12 @@ const schema = yup.object().shape({
   acepto: yup.boolean().oneOf([true], 'Debes aceptar las políticas de privacidad')
 });
 
+/**
+ * Página de Contacto.
+ * Permite a los usuarios enviar mensajes al club y descargar el dossier informativo.
+ * 
+ * @component
+ */
 const ContactPage = () => {
   const [modalConfig, setModalConfig] = useState({
     isOpen: false,
@@ -70,7 +76,7 @@ const ContactPage = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/contact/`, {
+      const response = await fetch(`${API_BASE_URL}/contact/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -22,6 +22,12 @@ from django.core.mail import EmailMessage
 from django.shortcuts import redirect
 
 class InstructorViewSet(viewsets.ModelViewSet):
+    """
+    ViewSet para gestionar los instructores del club.
+    
+    Permite listar, crear, actualizar y eliminar instructores.
+    Los usuarios no autenticados solo pueden ver la lista y detalles.
+    """
     queryset = Instructor.objects.all()
     serializer_class = InstructorSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -53,8 +59,22 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class ContactView(APIView):
+    """
+    Vista para procesar el formulario de contacto.
+    
+    Recibe los datos del formulario y envía un correo electrónico al administrador.
+    """
     permission_classes = [permissions.AllowAny]
     def post(self, request):
+        """
+        Envía un correo de contacto.
+
+        Args:
+            request: La solicitud HTTP con 'nombre', 'email' y 'mensaje'.
+
+        Returns:
+            Response: Mensaje de éxito o error.
+        """
         nombre = request.data.get('nombre')
         email = request.data.get('email')
         mensaje = request.data.get('mensaje')
@@ -78,8 +98,22 @@ class ContactView(APIView):
             return Response({"error": f"Error al enviar el mensaje: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ChatbotView(APIView):
+    """
+    Interfaz de API para el Chatbot con RAG.
+    
+    Conecta el frontend con el motor de n8n para responder preguntas basadas en documentos.
+    """
     permission_classes = [permissions.AllowAny]
     def post(self, request):
+        """
+        Procesa una pregunta del usuario.
+
+        Args:
+            request: Contiene el campo 'pregunta'.
+
+        Returns:
+            Response: La respuesta generada por el chatbot.
+        """
         pregunta = request.data.get('pregunta')
         if not pregunta:
             return Response({"error": "No se proporcionó ninguna pregunta"}, status=status.HTTP_400_BAD_REQUEST)
@@ -176,9 +210,15 @@ class ChangePasswordView(APIView):
         return Response({"message": "Contraseña actualizada correctamente"}, status=status.HTTP_200_OK)
 
 class NewsPDFView(APIView):
+    """
+    Genera un archivo PDF a partir de una noticia.
+    """
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, slug):
+        """
+        Obtiene la noticia por su slug y devuelve un archivo PDF descargable.
+        """
         news = get_object_or_404(News, slug=slug)
         
         # Prepare context for the template

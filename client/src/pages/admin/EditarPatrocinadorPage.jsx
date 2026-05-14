@@ -1,9 +1,16 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, Award, Globe, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Edición de Patrocinadores.
+ * Permite modificar los datos y el logo de un patrocinador.
+ * 
+ * @component
+ */
 const EditarPatrocinadorPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,10 +33,10 @@ const EditarPatrocinadorPage = () => {
       try {
         const token = localStorage.getItem('token');
         const config = token ? { headers: { Authorization: `Token ${token}` } } : {};
-        const response = await axios.get(`http://localhost:8000/api/sponsors/${id}/`, config);
+        const response = await axios.get(`${API_BASE_URL}/sponsors/${id}/`, config);
         const { name, website, is_active, logo } = response.data;
         setFormData({ name, website, is_active, logo: null });
-        if (logo) setPreview(`http://localhost:8000${logo}`);
+        if (logo) setPreview(`${BASE_URL}${logo}`);
       } catch (err) {
         console.error(err);
         navigate('/admin/patrocinadores');
@@ -70,7 +77,7 @@ const EditarPatrocinadorPage = () => {
           ...(token ? { Authorization: `Token ${token}` } : {})
         }
       };
-      await axios.patch(`http://localhost:8000/api/sponsors/${id}/`, data, config);
+      await axios.patch(`${API_BASE_URL}/sponsors/${id}/`, data, config);
       navigate('/admin/patrocinadores');
     } catch (error) {
       console.error(error);

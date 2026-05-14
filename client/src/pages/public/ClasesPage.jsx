@@ -1,7 +1,15 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
+/**
+ * Página de Clases y Horarios.
+ * Muestra información sobre las sedes, grupos y tipos de clases ofrecidas.
+ * Incluye un carrusel de tipos de clases y acordeones para cada sede.
+ * 
+ * @component
+ */
 const ClasesPage = () => {
     const [locations, setLocations] = useState([]);
     const [groups, setGroups] = useState([]);
@@ -59,8 +67,8 @@ const ClasesPage = () => {
         const fetchData = async () => {
             try {
                 const [locationsRes, groupsRes] = await Promise.all([
-                    axios.get('http://localhost:8000/api/locations/'),
-                    axios.get('http://localhost:8000/api/groups/')
+                    axios.get(`${API_BASE_URL}/locations/`),
+                    axios.get(`${API_BASE_URL}/groups/`)
                 ]);
                 setLocations(locationsRes.data);
                 setGroups(groupsRes.data);

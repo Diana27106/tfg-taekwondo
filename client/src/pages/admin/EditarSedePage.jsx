@@ -1,3 +1,4 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -5,6 +6,12 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import GroupManager from '../../components/admin/GroupManager';
 import { ArrowLeft, Save, Upload, MapPin, Home, Globe, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Edición de Sedes.
+ * Permite actualizar la información de una sede y gestionar sus grupos.
+ * 
+ * @component
+ */
 const EditarSedePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,10 +35,10 @@ const EditarSedePage = () => {
       try {
         const token = localStorage.getItem('token');
         const config = token ? { headers: { Authorization: `Token ${token}` } } : {};
-        const response = await axios.get(`http://localhost:8000/api/locations/${id}/`, config);
+        const response = await axios.get(`${API_BASE_URL}/locations/${id}/`, config);
         const { name, address, city, google_maps_url, photo } = response.data;
         setFormData({ name, address, city, google_maps_url, photo: null });
-        if (photo) setPreview(`http://localhost:8000${photo}`);
+        if (photo) setPreview(`${BASE_URL}${photo}`);
       } catch (err) {
         console.error(err);
         navigate('/admin/sedes');
@@ -75,7 +82,7 @@ const EditarSedePage = () => {
           ...(token ? { Authorization: `Token ${token}` } : {})
         }
       };
-      await axios.patch(`http://localhost:8000/api/locations/${id}/`, data, config);
+      await axios.patch(`${API_BASE_URL}/locations/${id}/`, data, config);
       navigate('/admin/sedes');
     } catch (error) {
       console.error(error);

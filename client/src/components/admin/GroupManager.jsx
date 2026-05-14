@@ -1,7 +1,17 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Plus, Trash2, Users, Clock, User, Loader2, X, Check, Search } from 'lucide-react';
 
+/**
+ * Gestor de Grupos por Sede.
+ * Permite vincular, desvincular y crear grupos asociados a una sede específica.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {number|string} props.locationId - ID de la sede a la que pertenecen los grupos.
+ * @param {function} props.onGroupsChange - Función de callback cuando los grupos cambian.
+ */
 const GroupManager = ({ locationId, onGroupsChange }) => {
   const [groups, setGroups] = useState([]);
   const [instructors, setInstructors] = useState([]);
@@ -27,7 +37,7 @@ const GroupManager = ({ locationId, onGroupsChange }) => {
 
   const fetchGroups = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/locations/${locationId}/`);
+      const response = await axios.get(`${API_BASE_URL}/locations/${locationId}/`);
       setGroups(response.data.groups || []);
     } catch (error) {
       console.error('Error fetching location groups:', error);
@@ -38,7 +48,7 @@ const GroupManager = ({ locationId, onGroupsChange }) => {
 
   const fetchInstructors = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/instructors/');
+      const response = await axios.get(`${API_BASE_URL}/instructors/`);
       setInstructors(response.data);
     } catch (error) {
       console.error('Error fetching instructors:', error);
@@ -47,7 +57,7 @@ const GroupManager = ({ locationId, onGroupsChange }) => {
 
   const fetchAllGroups = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/groups/');
+      const response = await axios.get(`${API_BASE_URL}/groups/`);
       // Filter out groups already in this location
       const filtered = response.data.filter(g => !groups.some(existing => existing.id === g.id));
       setAllAvailableGroups(filtered);
@@ -69,7 +79,7 @@ const GroupManager = ({ locationId, onGroupsChange }) => {
         locations: [locationId]
       };
       
-      await axios.post('http://localhost:8000/api/groups/', groupData, config);
+      await axios.post(`${API_BASE_URL}/groups/`, groupData, config);
       
       await fetchGroups();
       setShowAddModal(false);
@@ -90,12 +100,12 @@ const GroupManager = ({ locationId, onGroupsChange }) => {
       const config = { headers: { Authorization: `Token ${token}` } };
       
       // Get current group data
-      const groupRes = await axios.get(`http://localhost:8000/api/groups/${groupId}/`);
+      const groupRes = await axios.get(`${API_BASE_URL}/groups/${groupId}/`);
       const currentLocations = groupRes.data.locations || [];
       
       // Add this location if not already there
       if (!currentLocations.includes(parseInt(locationId))) {
-        await axios.patch(`http://localhost:8000/api/groups/${groupId}/`, {
+        await axios.patch(`${API_BASE_URL}/groups/${groupId}/`, {
           locations: [...currentLocations, parseInt(locationId)]
         }, config);
       }
@@ -118,10 +128,10 @@ const GroupManager = ({ locationId, onGroupsChange }) => {
       const token = localStorage.getItem('token');
       const config = { headers: { Authorization: `Token ${token}` } };
       
-      const groupRes = await axios.get(`http://localhost:8000/api/groups/${groupId}/`);
+      const groupRes = await axios.get(`${API_BASE_URL}/groups/${groupId}/`);
       const updatedLocations = groupRes.data.locations.filter(id => id !== parseInt(locationId));
       
-      await axios.patch(`http://localhost:8000/api/groups/${groupId}/`, {
+      await axios.patch(`${API_BASE_URL}/groups/${groupId}/`, {
         locations: updatedLocations
       }, config);
       

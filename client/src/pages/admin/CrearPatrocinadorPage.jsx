@@ -1,9 +1,16 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, Award, Globe, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Creación de Patrocinadores.
+ * Permite dar de alta nuevas empresas colaboradoras.
+ * 
+ * @component
+ */
 const CrearPatrocinadorPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -49,7 +56,7 @@ const CrearPatrocinadorPage = () => {
           ...(token ? { Authorization: `Token ${token}` } : {})
         }
       };
-      await axios.post('http://localhost:8000/api/sponsors/', data, config);
+      await axios.post(`${API_BASE_URL}/sponsors/`, data, config);
       navigate('/admin/patrocinadores');
     } catch (error) {
       console.error(error);

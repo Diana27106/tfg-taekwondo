@@ -1,9 +1,16 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Calendar, Clock, MapPin, Link as LinkIcon, FileText, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Edición de Eventos.
+ * Permite modificar los detalles de un evento registrado.
+ * 
+ * @component
+ */
 const EditarEventoPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +34,7 @@ const EditarEventoPage = () => {
       try {
         const token = localStorage.getItem('token');
         const config = token ? { headers: { Authorization: `Token ${token}` } } : {};
-        const response = await axios.get(`http://localhost:8000/api/events/${id}/`, config);
+        const response = await axios.get(`${API_BASE_URL}/events/${id}/`, config);
         const data = response.data;
         // Format dates for input datetime-local
         setFormData({
@@ -56,7 +63,7 @@ const EditarEventoPage = () => {
     try {
       const token = localStorage.getItem('token');
       const config = token ? { headers: { Authorization: `Token ${token}` } } : {};
-      await axios.patch(`http://localhost:8000/api/events/${id}/`, formData, config);
+      await axios.patch(`${API_BASE_URL}/events/${id}/`, formData, config);
       navigate('/admin/eventos');
     } catch (error) {
       console.error(error);

@@ -1,9 +1,16 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Calendar, Clock, MapPin, Link as LinkIcon, FileText, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Creación de Eventos.
+ * Proporciona un formulario para registrar nuevos eventos en el sistema.
+ * 
+ * @component
+ */
 const CrearEventoPage = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -28,7 +35,7 @@ const CrearEventoPage = () => {
     try {
       const token = localStorage.getItem('token');
       const config = token ? { headers: { Authorization: `Token ${token}` } } : {};
-      await axios.post('http://localhost:8000/api/events/', formData, config);
+      await axios.post(`${API_BASE_URL}/events/`, formData, config);
       navigate('/admin/eventos');
     } catch (error) {
       console.error(error);

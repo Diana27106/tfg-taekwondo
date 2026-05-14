@@ -1,9 +1,16 @@
+import { BASE_URL } from '../../config';
 import React from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import ProTable from '../../components/admin/ProTable';
 import { Users, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Página de Gestión de Instructores.
+ * Permite visualizar el equipo docente, editar sus perfiles y añadir nuevos miembros.
+ * 
+ * @component
+ */
 const InstructoresPage = () => {
   const navigate = useNavigate();
 
@@ -59,7 +66,7 @@ const InstructoresPage = () => {
                     <div className="relative group/avatar">
                       <div className="absolute -inset-1 bg-primary/20 rounded-full blur-md opacity-0 group-hover/avatar:opacity-100 transition duration-500"></div>
                       {row.photo ? (
-                        <img src={`http://localhost:8000${row.photo}`} alt={row.name} className="relative h-12 w-12 rounded-full object-cover border border-border/30 group-hover/avatar:border-primary/50 transition-colors" />
+                        <img src={`${BASE_URL}${row.photo}`} alt={row.name} className="relative h-12 w-12 rounded-full object-cover border border-border/30 group-hover/avatar:border-primary/50 transition-colors" />
                       ) : (
                         <div className="relative h-12 w-12 rounded-full bg-black/40 text-primary border border-border/30 flex items-center justify-center font-black text-sm uppercase group-hover/avatar:border-primary/50 transition-colors">
                           {row.name ? row.name.charAt(0).toUpperCase() : '?'}

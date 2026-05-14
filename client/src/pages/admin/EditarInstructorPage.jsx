@@ -1,9 +1,16 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { ArrowLeft, Save, Upload, User, Award, FileText, ImageIcon, Loader2 } from 'lucide-react';
 
+/**
+ * Página de Edición de Instructores.
+ * Permite modificar los datos de un instructor existente.
+ * 
+ * @component
+ */
 const EditarInstructorPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,7 +37,7 @@ const EditarInstructorPage = () => {
       try {
         const token = localStorage.getItem('token');
         const config = token ? { headers: { Authorization: `Token ${token}` } } : {};
-        const response = await axios.get(`http://localhost:8000/api/instructors/${id}/`, config);
+        const response = await axios.get(`${API_BASE_URL}/instructors/${id}/`, config);
         const data = response.data;
         
         setFormData({
@@ -41,7 +48,7 @@ const EditarInstructorPage = () => {
         });
 
         if (data.photo) {
-          setPreview(`http://localhost:8000${data.photo}`);
+          setPreview(`${BASE_URL}${data.photo}`);
         }
       } catch (error) {
         console.error('Error fetching instructor:', error);
@@ -88,7 +95,7 @@ const EditarInstructorPage = () => {
           ...(token ? { Authorization: `Token ${token}` } : {})
         }
       };
-      await axios.patch(`http://localhost:8000/api/instructors/${id}/`, data, config);
+      await axios.patch(`${API_BASE_URL}/instructors/${id}/`, data, config);
       navigate('/admin/instructores');
     } catch (error) {
       console.error('Error updating instructor:', error);

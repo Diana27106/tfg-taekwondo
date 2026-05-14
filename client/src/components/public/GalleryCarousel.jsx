@@ -6,6 +6,14 @@ import { ArrowLeft, ArrowRight, Maximize2, X } from 'lucide-react';
 const IMAGES_MODULES = import.meta.glob('../../../src/assets/carrusel/*.{png,jpg,jpeg,PNG,JPG,JPEG}', { eager: true, as: 'url' });
 const DEFAULT_IMAGES = Object.values(IMAGES_MODULES);
 
+/**
+ * Carrusel de Galería de Imágenes.
+ * Muestra imágenes en un carrusel interactivo con soporte para maximizar y gestos táctiles.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {Array} props.initialImages - Lista inicial de URLs de imágenes.
+ */
 const GalleryCarousel = ({ initialImages = DEFAULT_IMAGES }) => {
   const [images, setImages] = useState(initialImages);
   const [activeIndex, setActiveIndex] = useState(0);

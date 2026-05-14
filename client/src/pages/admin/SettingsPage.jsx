@@ -1,7 +1,14 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { Settings, Lock, Save, User, Key, CheckCircle, AlertCircle } from 'lucide-react';
 
+/**
+ * Página de Configuración de Usuario.
+ * Permite actualizar el perfil del administrador y cambiar la contraseña.
+ * 
+ * @component
+ */
 const SettingsPage = () => {
     const [profile, setProfile] = useState({
         username: '',
@@ -23,7 +30,7 @@ const SettingsPage = () => {
     const fetchProfile = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8000/api/profile/', {
+            const response = await fetch(`${API_BASE_URL}/profile/`, {
                 headers: {
                     'Authorization': `Token ${token}`
                 }
@@ -43,7 +50,7 @@ const SettingsPage = () => {
         setMessage({ text: '', type: '' });
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8000/api/profile/', {
+            const response = await fetch(`${API_BASE_URL}/profile/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +80,7 @@ const SettingsPage = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8000/api/change-password/', {
+            const response = await fetch(`${API_BASE_URL}/change-password/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

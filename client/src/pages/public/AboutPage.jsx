@@ -1,5 +1,7 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import CortesiaModal from '../../components/public/CortesiaModal';
 import IntegridadModal from '../../components/public/IntegridadModal';
@@ -7,6 +9,13 @@ import PerseveranciaModal from '../../components/public/PerseveranciaModal';
 import AutocontrolModal from '../../components/public/AutocontrolModal';
 import EspirituIndomableModal from '../../components/public/EspirituModal';
 
+/**
+ * Página "Sobre Nosotros".
+ * Presenta la historia de la escuela, los principios del Taekwondo y el equipo de instructores.
+ * Incluye integración con Instagram y modales informativos para cada principio.
+ * 
+ * @component
+ */
 const AboutPage = () => {
   const [instructors, setInstructors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -48,7 +57,7 @@ const AboutPage = () => {
   useEffect(() => {
     const fetchInstructors = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/instructors/');
+        const response = await axios.get(`${API_BASE_URL}/instructors/`);
         setInstructors(response.data);
       } catch (err) {
         console.error("Error fetching instructors:", err);

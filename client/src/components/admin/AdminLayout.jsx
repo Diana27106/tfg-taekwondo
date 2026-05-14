@@ -4,6 +4,14 @@ import { LayoutDashboard, Users, Calendar, Newspaper, Menu } from 'lucide-react'
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 
+/**
+ * Layout principal para el área de administración.
+ * Proporciona el Sidebar, Navbar y la estructura básica para las páginas de gestión.
+ * 
+ * @component
+ * @param {Object} props - Propiedades del componente.
+ * @param {React.ReactNode} props.children - Contenido de la página a renderizar.
+ */
 const AdminLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {

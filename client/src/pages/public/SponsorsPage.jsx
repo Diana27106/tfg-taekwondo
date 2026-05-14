@@ -1,7 +1,15 @@
+import { API_BASE_URL, BASE_URL } from '../../config';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Calendar as CalendarIcon, ExternalLink, X, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 
+/**
+ * Página de Patrocinadores (Sponsors).
+ * Muestra el carrusel de patrocinadores y un calendario de eventos próximos.
+ * Soporta internacionalización (ES/EN).
+ * 
+ * @component
+ */
 const SponsorsPage = () => {
   const [lang, setLang] = useState('es');
   const [sponsors, setSponsors] = useState([]);
@@ -89,8 +97,8 @@ const SponsorsPage = () => {
       try {
         setLoading(true);
         const [sponsorRes, eventRes] = await Promise.all([
-          axios.get('http://localhost:8000/api/sponsors/'),
-          axios.get('http://localhost:8000/api/events/')
+          axios.get(`${API_BASE_URL}/sponsors/`),
+          axios.get(`${API_BASE_URL}/events/`)
         ]);
         setSponsors(sponsorRes.data.filter(s => s.is_active));
         setEvents(eventRes.data);
