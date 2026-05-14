@@ -36,6 +36,9 @@ jobs:
           cache: 'pip'
           cache-dependency-path: server/requirements.txt
 
+      - name: Install System Dependencies
+        run: sudo apt-get update && sudo apt-get install -y libcairo2-dev pkg-config
+
       - name: Install Backend Dependencies
         run: pip install -r requirements.txt
         working-directory: server
