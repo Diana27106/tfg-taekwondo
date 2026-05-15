@@ -6,6 +6,13 @@ data:
   nginx.conf: |
     server {
         listen 80;
+        return 301 https://$host$request_uri;
+    }
+
+    server {
+        listen 443 ssl;
+        ssl_certificate     /etc/nginx/ssl/tls.crt;
+        ssl_certificate_key /etc/nginx/ssl/tls.key;
 
         # Frontend (React App)
         location / {
@@ -61,14 +68,21 @@ spec:
         image: nginx:stable-alpine
         ports:
         - containerPort: 80
+        - containerPort: 443
         volumeMounts:
         - name: config
           mountPath: /etc/nginx/conf.d/default.conf
           subPath: nginx.conf
+        - name: tls
+          mountPath: /etc/nginx/ssl
+          readOnly: true
       volumes:
       - name: config
         configMap:
           name: proxy-config
+      - name: tls
+        secret:
+          secretName: ionos-tls-secret
 
 ---
 apiVersion: v1
@@ -79,7 +93,12 @@ spec:
   selector:
     app: proxy
   ports:
-    - protocol: TCP
+    - name: http
+      protocol: TCP
       port: 80
       targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443
   type: LoadBalancer
