@@ -12,7 +12,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navLinks = [
-    { name: 'Inicio Sesión ???', href: '/login' },
+    { name: 'Inicio Sesión', href: '/login' },
     { name: 'Inicio', href: '/' },
     { name: 'Nuestra Escuela', href: '/about' },
     { name: 'Clases y Sedes', href: '/clases' },
