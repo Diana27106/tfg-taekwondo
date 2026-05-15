@@ -103,9 +103,12 @@ Por último, averigua qué dirección te ha dado AWS para tu entrada principal:
 kubectl get service proxy-service
 ```
 
+PD: Cambia la config.js del frontend para que apunte a la url del servicio
+
 1. Busca la columna **`EXTERNAL-IP`**. Verás una URL larguísima terminada en `.elb.amazonaws.com`.
 2. Cópiala.
 3. Ve a tu panel de IONOS.
 4. En la configuración DNS de tu dominio, crea un registro **CNAME** (o tipo ALIAS) y pega esa URL de AWS como destino.
 
 ¡Y listo! Al entrar a tu dominio cargará tu aplicación asegurada con HTTPS.
+
