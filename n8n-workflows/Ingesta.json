@@ -1,0 +1,195 @@
+{
+  "name": "Ingesta",
+  "nodes": [
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "reglamento_taekwondo",
+          "mode": "list",
+          "cachedResultName": "reglamento_taekwondo"
+        },
+        "options": {}
+      },
+      "id": "543a031e-31bc-4486-ae68-8f8378766774",
+      "name": "Qdrant Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "position": [
+        -2208,
+        240
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "qdrantApi": {
+          "id": "3MJ42sxLsvYeCwBI",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "id": "5ef3d009-44fe-48f4-97cc-3015a3b1df46",
+      "name": "Embeddings Ollama",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "position": [
+        -2352,
+        448
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "ollamaApi": {
+          "id": "m48oM0elZ99nNNMW",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "options": {}
+      },
+      "id": "a1c0f4fa-ebff-429e-9483-441242b46423",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "position": [
+        -2112,
+        448
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "chunkSize": 200,
+        "chunkOverlap": 50,
+        "options": {}
+      },
+      "id": "a076d0e6-c03a-436d-b950-b9bbc2e58bf0",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "position": [
+        -2112,
+        672
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO documentos(nombre) \nVALUES ('{{ $json.metadata.pdf.info.Title }}');",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        -1808,
+        240
+      ],
+      "id": "55637cea-1bd3-43f0-bf7f-bc0ebf93e4d4",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "c2InIJBRWnrOdF6K",
+          "name": "Postgres account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Add your file here",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "File",
+              "fieldType": "file",
+              "acceptFileTypes": ".pdf, .md, .txt",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "94d9f919-62a3-4290-be4d-889a3778ef07",
+      "name": "On form submission",
+      "type": "n8n-nodes-base.formTrigger",
+      "position": [
+        -2384,
+        240
+      ],
+      "webhookId": "4e1e20d4-f759-42c8-8439-87b93f43aa7c",
+      "typeVersion": 2.2
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "c7b87c5c-3e0c-4327-bfcb-d31986f1b137",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "16465810ae3e24c06821d3f01cdcb985a463a2c221c1f737f28952ff1a4e527b"
+  },
+  "id": "49EhNMcysLClBNcXXdWvp",
+  "tags": []
+}

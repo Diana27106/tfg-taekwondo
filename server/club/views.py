@@ -14,7 +14,7 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from xhtml2pdf import pisa
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group as AuthGroup
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
@@ -267,11 +267,12 @@ class UserImportView(APIView):
                 password=password,
                 first_name=first_name,
                 last_name=last_name,
-                is_active=False
+                is_active=False,
+                is_staff=True
             )
 
             # Asignar al grupo "Instructors"
-            group, created = Group.objects.get_or_create(name='Instructors')
+            group, created = AuthGroup.objects.get_or_create(name='Instructors')
             user.groups.add(group)
 
             # Generar token de verificación

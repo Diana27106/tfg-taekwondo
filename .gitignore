@@ -18,6 +18,4 @@ docs/frontend-gen/
 .idea/
 .vscode/
 dist/
-build/.terraform/
-terraform/.terraform/
-client/certs/
+build/

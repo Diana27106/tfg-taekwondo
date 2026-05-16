@@ -1,0 +1,319 @@
+{
+  "name": "Consulta RAG - Corregido",
+  "nodes": [
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        928,
+        0
+      ],
+      "id": "397ffc1f-e267-4f35-b676-eaadfe96be28",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chatbot-rag",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a4115d3b-1252-4100-aa27-64b0c1cca9b9",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        320,
+        0
+      ],
+      "webhookId": "7bae17f0-b23f-40a9-9530-ef85b9e6b82f"
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "consultas_rag",
+          "mode": "list",
+          "cachedResultName": "consultas_rag"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "respuesta": "={{ $json.output }}",
+            "pregunta": "={{ $('Webhook').item.json.body.chatInput }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "pregunta",
+              "displayName": "pregunta",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "respuesta",
+              "displayName": "respuesta",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "documentos_usados",
+              "displayName": "documentos_usados",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1136,
+        0
+      ],
+      "id": "6cd2747f-cc86-41da-aa7b-768157931df2",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "c2InIJBRWnrOdF6K",
+          "name": "Postgres account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "id": "e1b391b5-5449-494f-ae40-49f0e41d71fa",
+      "name": "Embeddings Ollama1",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "position": [
+        752,
+        432
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "ollamaApi": {
+          "id": "m48oM0elZ99nNNMW",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.chatInput }}",
+        "options": {
+          "systemMessage": "=[ROL]\nEres Young-Su AI, el águila mascota oficial y entrenador virtual de la escuela de Taekwondo Sierra Nevada. Tu propósito es ayudar a alumnos, padres y posibles patrocinadores utilizando EXCLUSIVAMENTE la información provista en el bloque de [CONTEXTO].\n\n[TU PERSONALIDAD Y ESTILO]\n- Eres un águila: amigable, motivadora, respetuosa, energética y muy positiva.\n- Conecta bien tanto con niños como con adultos. Habla de forma natural, clara y cercana (evita sonar robótico).\n- Te apasiona el Taekwondo, la disciplina, el esfuerzo y la superación personal.\n- Respuestas: Sé breve, directo y ve al grano. Usa párrafos cortos.\n\n[REGLAS ESTRICTAS DE COMPORTAMIENTO y ANTI-ALUCINACIÓN]\n1. LIMITACIÓN AL CONTEXTO: Tu única fuente de verdad es el bloque de [CONTEXTO] provisto abajo. Si la respuesta no está textualmente ahí o no se puede deducir directamente de él, debes activar la REGLA 2.\n2. CÓMO MANEJAR LO DESCONOCIDO: Si el contexto no contiene la información para responder, di exactamente algo como: \"¡Vaya! Volando por el contexto no he encontrado esa información detallada. 🦅 Te recomiendo preguntar directamente en la recepción de la escuela o a los profesores para asegurarnos al 100%.\"\n3. PROHIBIDO INVENTAR: No asumas, no presupongas, no inventes horarios, precios, ubicaciones ni normativas que no estén explícitas. Es preferible decir que no lo sabes a dar un dato falso.\n4. FILTRO DE TEMÁTICA: Si el usuario te pregunta sobre temas ajenos a la escuela Taekwondo Sierra Nevada o al Taekwondo en general, redirige la conversación amablemente hacia el Taekwondo.\n\n---\n\n[PREGUNTA DEL USUARIO]\n{{ $json.body.chatInput }}\n\n[RESPUESTA DE YOUNG-SU AI]"
+        }
+      },
+      "id": "b57a0713-49c1-437e-bacc-43d00b511dd6",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        560,
+        0
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolName": "retriever",
+        "toolDescription": "Retrieve data from a semantic database to answer questions",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "reglamento_taekwondo",
+          "mode": "list",
+          "cachedResultName": "reglamento_taekwondo"
+        },
+        "options": {}
+      },
+      "id": "b65a2de1-f4fe-481d-b661-6dc097f5b633",
+      "name": "Qdrant Vector Store1",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "position": [
+        752,
+        256
+      ],
+      "typeVersion": 1.2,
+      "credentials": {
+        "qdrantApi": {
+          "id": "3MJ42sxLsvYeCwBI",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=1"
+      },
+      "id": "17d63bf2-1057-42f9-9600-eb981feacb4a",
+      "name": "Simple Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        608,
+        256
+      ],
+      "typeVersion": 1.3
+    },
+    {
+      "parameters": {
+        "model": "mistral:7b",
+        "options": {}
+      },
+      "id": "271364e8-3c83-4537-bd3b-cc666127e9ce",
+      "name": "Ollama Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "position": [
+        400,
+        256
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "ollamaApi": {
+          "id": "m48oM0elZ99nNNMW",
+          "name": "Ollama account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "7abed049-93aa-4554-938c-845872bef64a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "16465810ae3e24c06821d3f01cdcb985a463a2c221c1f737f28952ff1a4e527b"
+  },
+  "id": "plFMZYALENocf9WGp6Zy6",
+  "tags": []
+}
