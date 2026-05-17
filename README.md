@@ -1,163 +1,170 @@
-# TFG Taekwondo - Sistema de Gestión de Club
+# TFG Taekwondo — Sistema de gestión de club
 
-Un sistema integral de gestión para clubes de Taekwondo que combina un panel administrativo moderno con una infraestructura de IA avanzada para la asistencia al usuario mediante RAG (Retrieval-Augmented Generation).
+Plataforma web para el **Club de Taekwondo Sierra Nevada**: sitio público informativo, panel de administración y asistente conversacional con IA (RAG) sobre horarios, sedes y normativa del club.
 
-## 📄 Descripción del Proyecto
-
-Este proyecto es una plataforma completa diseñada para resolver las necesidades operativas de un club de taekwondo. Permite gestionar sedes, eventos, noticias, patrocinadores e instructores de manera eficiente.
-
-### Problema que resuelve:
-La falta de centralización en la gestión de actividades y la dificultad de los usuarios para obtener respuestas rápidas sobre horarios, sedes o requisitos del club.
-
-### Características principales:
-- **Panel Administrativo Premium**: Interfaz de alta fidelidad para la gestión CRUD de todas las entidades del club.
-- **Chatbot Inteligente**: Sistema de asistencia basado en IA que utiliza documentación técnica y datos del club para responder preguntas en tiempo real.
-- **Generación de Reportes**: Exportación de logs y datos maestros en formato PDF.
-- **Infraestructura Local de IA**: Procesamiento de lenguaje natural ejecutado localmente para garantizar la privacidad y reducir costes.
+| Recurso | Enlace |
+|--------|--------|
+| **Presentación del TFG** | [Ver en Canva](https://canva.link/jrceub20991l7t2) |
+| **Documentación del proyecto** | [Ver en Canva](https://canva.link/lk64l1kbt8h5guo) |
+| **Repositorio** | [github.com/Diana27106/tfg-taekwondo](https://github.com/Diana27106/tfg-taekwondo) |
 
 ---
 
-## 📂 Estructura del Proyecto
+## Descripción
+
+Centraliza la gestión operativa del club (sedes, eventos, noticias, patrocinadores e instructores) y ofrece a alumnos y visitantes respuestas rápidas mediante un chatbot alimentado con documentación real del club.
+
+### Problema que aborda
+
+- Información dispersa sobre horarios, sedes y actividades.
+- Carga administrativa manual para mantener el contenido web actualizado.
+- Dificultad para resolver dudas frecuentes sin intervención del monitor.
+
+### Funcionalidades principales
+
+- **Web pública**: historia del club, clases, blog, patrocinadores, contacto y widgets de reseñas.
+- **Panel administrativo**: CRUD de sedes, eventos, noticias, instructores y patrocinadores; exportación de informes en PDF.
+- **Chatbot con RAG**: respuestas basadas en documentos del club usando Ollama, Qdrant y flujos n8n.
+- **Despliegue contenedorizado**: Docker Compose en local; Terraform + Kubernetes (EKS) en producción.
+
+---
+
+## Documentación
+
+| Tipo | Ubicación |
+|------|-----------|
+| Memoria / documentación visual (Canva) | [Documentación del proyecto](https://canva.link/lk64l1kbt8h5guo) |
+| Presentación del TFG (Canva) | [Presentación](https://canva.link/jrceub20991l7t2) |
+| Manuales técnicos (repositorio) | Carpeta [`docs/`](docs/) |
+| Manual de usuario | [`docs/manual_usuario.md`](docs/manual_usuario.md) |
+| Manual de administración | [`docs/manual_administracion.md`](docs/manual_administracion.md) |
+| Instalación y despliegue | [`docs/manual_instalacion.md`](docs/manual_instalacion.md) · [`docs/guia_despliegue.md`](docs/guia_despliegue.md) |
+| Pruebas | [`docs/pruebas.md`](docs/pruebas.md) |
+| Índice de documentación técnica | [`docs/index.md`](docs/index.md) |
+
+---
+
+## Estructura del proyecto
 
 ```text
 .
-├── client/              # Frontend en React (Vite)
-│   ├── src/             # Código fuente (Componentes, Páginas, Hooks)
-│   └── public/          # Activos estáticos
-├── server/              # Backend en Django
-│   ├── club/            # Lógica de negocio y modelos de la app
-│   ├── core/            # Configuración del proyecto Django
-│   └── media/           # Archivos subidos (imágenes, documentos)
-├── n8n-workflows/       # Definiciones de flujos de trabajo para el chatbot
-├── postgres/            # Scripts de inicialización de la base de datos
-├── qdrant_storage/      # Persistencia de la base de datos vectorial
-└── docker-compose.yml   # Orquestación de servicios (DB, IA, Automatización)
+├── client/                 # Frontend React (Vite + Tailwind)
+│   ├── src/                # Componentes, páginas y lógica
+│   └── public/assets/      # Imágenes estáticas (/assets/img/...)
+├── server/                 # Backend Django REST
+│   ├── club/               # Modelos, vistas y API del club
+│   ├── core/               # Configuración y autenticación
+│   └── media/              # Archivos subidos (fotos, PDFs)
+├── docs/                   # Manuales y guías del TFG
+├── n8n-workflows/          # Flujos RAG e importación de datos
+├── terraform/              # Infraestructura AWS (EKS, VPC, ECR)
+├── kubernetes/             # Manifiestos de despliegue
+├── proxy/                  # Configuración Nginx
+└── docker-compose.yml      # Postgres, Qdrant, Ollama, n8n, servicios app
 ```
 
-- **client/**: Interfaz de usuario reactiva y móderna.
-- **server/**: API REST sólida que maneja la persistencia y la lógica.
-- **n8n-workflows/**: Orquestación del pipeline de RAG (Ollama + Qdrant).
-- **docker-compose.yml**: Punto de entrada para levantar la pila tecnológica de soporte.
+---
+
+## Stack tecnológico
+
+| Capa | Tecnologías |
+|------|-------------|
+| Frontend | React, Vite, Tailwind CSS, React Router, Axios, jsPDF |
+| Backend | Django, Django REST Framework, PostgreSQL, Whitenoise |
+| IA / automatización | Ollama, Qdrant, n8n |
+| DevOps | Docker, Docker Compose, Terraform, Kubernetes (EKS), Nginx, GitHub Actions |
 
 ---
 
-## 🛠️ Tecnologías y Herramientas
+## Instalación rápida (desarrollo local)
 
-### Herramientas
-- **Git**: Control de versiones.
-- **Docker & Docker Compose**: Contenerización y orquestación de servicios.
-- **Vite**: Herramienta de construcción rápida para el frontend.
-- **n8n**: Plataforma de automatización de flujos de trabajo para la lógica del chatbot.
+### Requisitos
 
-### Librerías y Dependencias
+- Node.js 18+
+- Python 3.10+
+- Docker y Docker Compose
 
-#### Frontend (React)
-- **Tailwind CSS**: Framework de CSS para un diseño rápido y moderno.
-- **Lucide React**: Set de iconos elegantes y consistentes.
-- **Axios**: Cliente HTTP para la comunicación con el backend Django.
-- **jsPDF & jsPDF-AutoTable**: Generación dinámica de documentos PDF desde el navegador.
-- **React Router DOM**: Gestión de la navegación y rutas protegidas.
+### 1. Clonar el repositorio
 
-#### Backend (Django)
-- **Django REST Framework (DRF)**: Creación de APIs web potentes y flexibles.
-- **Django CORS Headers**: Manejo de Cross-Origin Resource Sharing.
-- **Psycopg2**: Adaptador de base de datos PostgreSQL para Python.
-- **Whitenoise**: Servido de archivos estáticos simplificado.
-
-#### IA e Infraestructura
-- **PostgreSQL**: Base de datos relacional para datos estructurados.
-- **Qdrant**: Base de datos vectorial para el almacenamiento de embeddings (RAG).
-- **Ollama**: Motor para ejecutar modelos de lenguaje (LLM) de forma local (smollm2).
-
----
-
-## 🚀 Instalación
-
-### Requisitos Previos
-- **Node.js** (v18+)
-- **Python** (v3.10+)
-- **Docker & Docker Compose**
-
-### Paso 1: Clonar el repositorio
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/Diana27106/tfg-taekwondo.git
 cd tfg-taekwondo
 ```
 
-### Paso 2: Levantar infraestructura (Docker)
-```bash
-docker-compose up -d
-```
-*Esto iniciará Postgres, Qdrant, Ollama (y descargará los modelos necesarios) y n8n.*
+### 2. Infraestructura con Docker
 
-### Paso 3: Configurar el Backend
+```bash
+docker compose up -d
+```
+
+Inicia PostgreSQL, Qdrant, Ollama (descarga de modelos en el primer arranque) y n8n.
+
+### 3. Backend
+
 ```bash
 cd server
 python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
+source venv/bin/activate   # Windows: venv\Scripts\activate
 pip install -r requirements.txt
+cp ../.env.example ../.env   # Ajusta variables si es necesario
 python manage.py migrate
 python manage.py runserver
 ```
 
-### Paso 4: Configurar el Frontend
+### 4. Frontend
+
 ```bash
-cd ../client
+cd client
 npm install
 npm run dev
 ```
 
----
+| Servicio | URL por defecto |
+|----------|-----------------|
+| Web (Vite) | http://localhost:5173 |
+| API Django | http://localhost:8000 |
+| n8n | Ver puerto en `.env` |
 
-## 📋 Despliegue
+> **Imágenes estáticas:** las rutas `/assets/img/...` se sirven desde `client/public/assets/`. No elimines esa carpeta si el código usa URLs absolutas a esos recursos.
 
-### Configuración de Entorno
-Crea un archivo `.env` en la raíz basado en el archivo `.env.example` incluido. Asegúrate de configurar las credenciales de base de datos y los puertos de los servicios.
-
-### Opciones de Despliegue
-- **Local**: Utilizando los comandos de desarrollo mencionados arriba.
-- **Producción**: 
-  - Backend: Se recomienda Gunicorn + Nginx.
-  - Frontend: `npm run build` y servir los archivos estáticos desde Nginx o un CDN.
-  - AI Stack: Requiere servidores con soporte para Docker y preferiblemente GPU para Ollama.
+Instrucciones detalladas: [`docs/manual_instalacion.md`](docs/manual_instalacion.md).
 
 ---
 
-## 💻 Uso
+## Uso
 
-1. Accede al frontend en `http://localhost:5173`.
-2. El panel administrativo está disponible en las rutas protegidas `/admin`.
-3. Interactúa con el chatbot desde el widget flotante en la interfaz principal.
-4. Genera reportes desde la sección de "Informes" en el Dashboard.
-
----
-
-## ⚙️ Configuración
-
-El proyecto utiliza variables de entorno para gestionar:
-- `POSTGRES_DB/USER/PASSWORD`: Acceso a la base de datos principal.
-- `OLLAMA_MODEL`: El modelo LLM a utilizar (ej: `smollm2:1.7b`).
-- `N8N_PORT`: Puerto de acceso para la interfaz de automatización.
+1. Abre la web en `http://localhost:5173`.
+2. Navega por las secciones públicas (inicio, clases, blog, patrocinadores, contacto).
+3. Usa el chatbot desde el widget flotante.
+4. Accede al panel en `/admin` (requiere autenticación).
+5. Genera informes PDF desde el dashboard administrativo.
 
 ---
 
-## 🤝 Contribución
+## Configuración
 
-1. Haz un **Fork** del proyecto.
-2. Crea una nueva rama: `git checkout -b feature/NuevaFuncionalidad`.
-3. Realiza tus cambios y haz **Commit**: `git commit -m 'Añade nueva funcionalidad'`.
-4. Sube los cambios: `git push origin feature/NuevaFuncionalidad`.
-5. Abre un **Pull Request**.
+Copia `.env.example` a `.env` en la raíz del proyecto. Variables habituales:
 
----
+- `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD` — base de datos
+- `OLLAMA_MODEL` — modelo LLM (p. ej. `smollm2:1.7b`)
+- `N8N_PORT` — puerto de la interfaz n8n
 
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia **MIT**. Consulta el archivo `LICENSE` para más detalles (o disponible bajo petición).
+Despliegue en AWS: [`docs/guia_despliegue.md`](docs/guia_despliegue.md).
 
 ---
 
-## 📝 Notas Adicionales
+## Contribución
 
-- **Seguridad**: Asegúrate de cambiar las contraseñas predeterminadas en el archivo `.env` antes de cualquier despliegue real.
-- **Modelos de IA**: La primera ejecución de Docker puede tardar unos minutos mientras Ollama descarga los modelos `smollm2:1.7b` y `nomic-embed-text`.
+1. Haz fork del repositorio.
+2. Crea una rama: `git checkout -b feature/mi-funcionalidad`.
+3. Commit y push de tus cambios.
+4. Abre un Pull Request.
+
+---
+
+## Autora
+
+**Diana Radu** — Trabajo de Fin de Grado (TFG).
+
+- Presentación: [Canva](https://canva.link/jrceub20991l7t2)
+- Documentación: [Canva](https://canva.link/lk64l1kbt8h5guo)

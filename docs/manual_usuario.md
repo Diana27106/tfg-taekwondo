@@ -24,9 +24,7 @@ La plataforma cuenta con un diseño **totalmente responsivo**, adaptándose auto
 
 Esto garantiza una experiencia cómoda y accesible desde cualquier dispositivo.
 
-![Pantalla principal responsiva](./ruta/a/imagen_pantalla_principal.png)
-
-*> **Captura sugerida:** Mostrar la página principal en versión escritorio y móvil para evidenciar la adaptación responsive.*
+![Pantalla principal responsiva](./fotos/responsive.png)
 
 ---
 
@@ -40,14 +38,8 @@ En la página de inicio encontrarás información general sobre el club y su tra
 
 * Historia y evolución del club
 * Filosofía y valores deportivos
-* Beneficios de practicar Taekwondo
-* Fotografías y contenido representativo de la escuela
+* Instrucores del club
 
-Esta sección permite a nuevos alumnos y familias conocer mejor la identidad del club.
-
-![Sección de Historia](./ruta/a/imagen_historia.png)
-
-*> **Captura sugerida:** Sección “Nuestra Escuela” o “Historia” mostrando el texto introductorio y fotografías del club.*
 
 ---
 
@@ -72,10 +64,6 @@ Cada sede incluye:
 * Botón **“Cómo llegar”** conectado con Google Maps
 
 Esto facilita encontrar la sede más cercana rápidamente.
-
-![Clases y Sedes](./ruta/a/imagen_sedes.png)
-
-*> **Captura sugerida:** Tabla de horarios junto al listado de sedes y el botón de acceso a Google Maps.*
 
 ---
 
@@ -107,10 +95,6 @@ En esta misma sección es posible cambiar el idioma de la página entre:
 * Español
 * Inglés
 
-![Calendario de Eventos](./ruta/a/imagen_calendario.png)
-
-*> **Captura sugerida:** Calendario interactivo mostrando un evento seleccionado y su ventana emergente.*
-
 ---
 
 ## D. Formulario de Contacto
@@ -133,8 +117,6 @@ El formulario de contacto permite solicitar información directamente al club.
 
 ![Formulario de Contacto](./ruta/a/imagen_contacto.png)
 
-*> **Captura sugerida:** Formulario completado con datos de prueba o mostrando el mensaje de confirmación.*
-
 ---
 
 ## E. Chatbot Inteligente
@@ -153,9 +135,6 @@ Responder preguntas frecuentes como:
 
 Las respuestas se muestran en tiempo real para ofrecer atención rápida y cómoda.
 
-![Chatbot Inteligente](./ruta/a/imagen_chatbot.png)
-
-*> **Captura sugerida:** Conversación de ejemplo con el chatbot respondiendo dudas sobre horarios o inscripciones.*
 
 ---
 
@@ -198,9 +177,6 @@ Para acceder:
 2. Introduzca sus credenciales de administrador
 3. Acceda al Dashboard principal
 
-![Pantalla de Login](./ruta/a/imagen_login.png)
-
-*> **Captura sugerida:** Formulario de inicio de sesión del panel administrativo.*
 
 ---
 
@@ -216,9 +192,6 @@ El panel principal muestra información resumida del sistema mediante tarjetas y
 * Patrocinadores activos
 * Actividad reciente
 
-![Dashboard de Administración](./ruta/a/imagen_dashboard.png)
-
-*> **Captura sugerida:** Vista general del dashboard con estadísticas y accesos rápidos.*
 
 ---
 
@@ -236,9 +209,7 @@ Desde este módulo es posible administrar la información del equipo docente.
 * Añadir fotografías y biografías
 * Buscar instructores en tiempo real
 
-![Gestión de Instructores](./ruta/a/imagen_admin_instructores.png)
 
-*> **Captura sugerida:** Tabla de instructores con opciones de edición y creación.*
 
 ---
 
@@ -254,9 +225,6 @@ El módulo de noticias permite publicar artículos relacionados con el club.
 * Gestionar contenido del blog
 * Generación automática de URLs amigables (slug SEO)
 
-![Gestión de Noticias](./ruta/a/imagen_admin_noticias.png)
-
-*> **Captura sugerida:** Formulario de creación o edición de noticias.*
 
 ---
 
@@ -274,9 +242,6 @@ Permite administrar el calendario de actividades del club.
 > **Importante:**
 > Si el evento requiere inscripción externa, asegúrese de añadir correctamente el enlace correspondiente.
 
-![Gestión de Eventos](./ruta/a/imagen_admin_eventos.png)
-
-*> **Captura sugerida:** Lista de eventos o formulario de creación de eventos.*
 
 ---
 
@@ -293,9 +258,7 @@ Este apartado permite administrar las empresas colaboradoras del club.
 
 Los patrocinadores pueden ocultarse sin necesidad de eliminarlos del sistema.
 
-![Gestión de Patrocinadores](./ruta/a/imagen_admin_patrocinadores.png)
 
-*> **Captura sugerida:** Listado de patrocinadores mostrando el estado activo/inactivo.*
 
 ---
 
