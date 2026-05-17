@@ -1,4 +1,10 @@
-# Manual de Instalación
+# Manual de Instalación y Despliegue
+
+Este documento incluye dos partes principales. La **Parte A** te guiará para instalar y encender el proyecto en tu ordenador personal de manera local. La **Parte B** es para perfiles técnicos y explica cómo llevar este proyecto a internet utilizando la nube de Amazon Web Services (AWS).
+
+---
+
+# PARTE A: Instalación en Entorno Local (Desarrollo / Pruebas)
 
 ## FASE 1: Descargar los 4 Programas Necesarios
 
@@ -96,7 +102,7 @@ Aunque la configuración es automática, aquí tienes cómo verificar que todo e
 1. **Modelos de IA (Ollama):**
    El sistema descarga automáticamente los modelos al arrancar. Si quieres comprobarlo o forzar la descarga de los modelos específicos configurados en el `.env`, usa:
    ```bash
-   docker exec -it tfg-taekwondo-ollama ollama pull smollm2:1.7b
+   docker exec -it tfg-taekwondo-ollama ollama pull mistral:7b
    docker exec -it tfg-taekwondo-ollama ollama pull nomic-embed-text
    ```
 2. **Base de Datos (PostgreSQL):**
@@ -171,14 +177,21 @@ Tenemos que enseñarle a la IA cómo debe hablar. Para ello usaremos n8n, el orq
 6. Dentro de esa carpeta, busca una que se llama `n8n-workflows`.
 7. Selecciona el archivo que termine en `.json` (el archivo del workflow del chatbot) y ábrelo.
 8. Verás cómo aparece una red de conexiones increíble en tu pantalla. 
-9. **Configurar Credenciales (MUY IMPORTANTE):**
-   Aunque hayas importado el flujo, n8n necesita saber *cómo* entrar a Ollama y a la Base de Datos:
-   * Busca en el menú de la izquierda el icono de una llave (**"Credentials"**).
-   * Pulsa en **"Add Credential"**.
-   * Busca **"Ollama"**. En la URL pon: `http://host.docker.internal:11434`.
-   * Busca **"Postgres"**. Pon los datos que configuraste en el `.env` (Host: `host.docker.internal`, Port: `5433`, User: `admin`, Pass: `admin`, DB: `taekwondodb`).
-   * Vuelve al Workflow, haz clic en los nodos que tengan un aviso rojo y selecciona las credenciales que acabas de crear.
-10. IMPORTANTE: Arriba a la derecha, activa el interruptor que dice **"Active"** o **"Inactive"** para encenderlo, y haz clic en el botón de guardar (Save). ¡La IA ya está conectada al sistema!
+10. **Configurar Credenciales (MUY IMPORTANTE):**
+    Aunque hayas importado el flujo, n8n necesita saber *cómo* entrar a Ollama y a la Base de Datos:
+    * Busca en el menú de la izquierda el icono de una llave (**"Credentials"**).
+    * Pulsa en **"Add Credential"**.
+    * Busca **"Ollama"**. En la URL pon: `http://host.docker.internal:11434` *(Nota: Dependiendo de tu sistema operativo o configuración de Docker, `host.docker.internal` podría no funcionar. En su lugar, deberás poner el nombre del contenedor de la imagen, por ejemplo: `http://tfg-taekwondo-ollama:11434` o `http://tfg-taekwondo-backend:8000` si te conectas a la API).*
+    * Busca **"Postgres"**. Pon los datos que configuraste en el `.env` (Host: `host.docker.internal` o `tfg-taekwondo-postgres`, Port: `5433` o `5432`, User: `admin`, Pass: `admin`, DB: `taekwondodb`).
+    * **Tutorial rápido: Credenciales de Google Sheets API** (Para registrar instructores desde Drive):
+      1. Ve a [Google Cloud Console](https://console.cloud.google.com/).
+      2. Crea un proyecto nuevo. Ve a "API y Servicios" > "Biblioteca" y habilita la **Google Sheets API** y **Google Drive API**.
+      3. Ve a "Credenciales" > "Crear Credenciales" > "Cuenta de servicio".
+      4. Ponle un nombre y créala. Entra en la cuenta recién creada, ve a la pestaña "Claves" > "Añadir Clave" > "Crear clave nueva" y selecciona formato **JSON**.
+      5. Se descargará un archivo. En n8n, crea una credencial de tipo "Google Service Account", y pega el email de esa cuenta y su clave privada contenida en el archivo JSON.
+      6. **¡IMPORTANTÍSIMO!** Copia el correo generado de esa cuenta de servicio (termina en `@...iam.gserviceaccount.com`). Ve a tu Google Sheet en el navegador, dale al botón "Compartir", y pega ese correo dándole permisos de "Editor". Así n8n podrá leerlo.
+    * Vuelve al Workflow, haz clic en los nodos que tengan un aviso rojo y selecciona las credenciales que acabas de crear.
+11. IMPORTANTE: Arriba a la derecha, activa el interruptor que dice **"Active"** o **"Inactive"** para encenderlo, y haz clic en el botón de guardar (Save). ¡La IA ya está conectada al sistema!
 
 ---
 
@@ -212,3 +225,155 @@ Es importante apagar los motores para que tu ordenador no consuma batería y mem
 3. Cierra las 3 ventanas negras dándole a la "X" de la esquina.
 4. En el programa "Docker Desktop" que instalaste al principio, ve a "Containers" y pulsa el botón de Stop (el cuadrado) al lado de "tfg-taekwondo".
 5. Si instalaste Docker en Linux sin interfaz gráfica, abre una terminal en la carpeta `tfg-taekwondo` y escribe `sudo docker-compose down`.
+
+---
+
+# PARTE B: Despliegue en Producción (Amazon Web Services - AWS)
+
+Para poner la plataforma a disposición del público en internet con alta disponibilidad y persistencia real, utilizaremos la infraestructura de AWS orquestada mediante Terraform y Kubernetes (Amazon EKS). Esta sección servirá como guía rápida para levantar todo el entorno desde cero.
+
+## Requisitos Previos e Instalación de Herramientas
+1. Una cuenta activa en **AWS** (y credenciales actualizadas del AWS Learner Lab, si usas cuenta educativa).
+2. **AWS CLI** (Para autenticarte y hablar con la nube):
+   * **Windows:** Descarga el [instalador oficial (MSI)](https://awscli.amazonaws.com/AWSCLIV2.msi), ejecútalo y reinicia la terminal.
+   * **Mac:** Usa Homebrew ejecutando `brew install awscli`.
+   * **Linux:** Ejecuta `curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"`, luego `unzip awscliv2.zip` y `sudo ./aws/install`.
+3. **Terraform (`>= 1.5.0`)** (Para crear la infraestructura):
+   * **Windows:** Descarga el binario .zip desde la web oficial de HashiCorp, descomprímelo y añade la carpeta a tus Variables de Entorno del sistema (PATH).
+   * **Mac:** Ejecuta `brew tap hashicorp/tap` y luego `brew install hashicorp/tap/terraform`.
+   * **Linux:** Sigue el tutorial oficial de Hashicorp para añadir el repositorio a `apt` usando `sudo apt-get install -y terraform`.
+4. **kubectl** (Para comandar el clúster de Kubernetes):
+   * **Windows:** Descarga el binario ejecutando `curl.exe -LO "https://dl.k8s.io/release/v1.30.0/bin/windows/amd64/kubectl.exe"` en tu terminal y añádelo al PATH.
+   * **Mac:** Ejecuta `brew install kubectl`.
+   * **Linux:** Ejecuta `curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"`, seguido de `sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl`.
+
+---
+
+## FASE 1: Autenticación en AWS
+Lo primero es asegurarte de que tu terminal tiene los permisos actualizados.
+```bash
+aws configure
+```
+*(Deberás pegar tu Access Key, Secret Key, y Session Token, además de poner la región por defecto, ej. `us-east-1` o `eu-west-1`).*
+
+---
+
+## FASE 2: Crear la Infraestructura (Terraform)
+Entra en la carpeta de Terraform y levanta el clúster, la red y los repositorios de imágenes.
+```bash
+cd tfg-taekwondo/terraform
+terraform init
+terraform plan
+terraform apply -auto-approve
+```
+*(Este proceso crea VPCs, EKS y nodos EC2. Tarda unos 15-20 minutos. Espera a que termine correctamente antes de avanzar).*
+
+---
+
+## FASE 3: Conectar tu Terminal a Kubernetes
+Una vez el clúster existe, dile a tu herramienta `kubectl` cómo conectarse a él:
+```bash
+aws eks update-kubeconfig --name tfg-taekwondo-cluster --region us-east-1
+```
+*(Asegúrate de cambiar la región o el nombre del clúster si los definiste de forma distinta en tus variables de Terraform).*
+
+---
+
+## FASE 4: Instalar el Driver de Volúmenes (¡Crítico!)
+Para que AWS pueda crear los discos duros virtuales (EBS) para tu base de datos y tus archivos multimedia, necesitas instalar este complemento. **Si te saltas esto, los pods de PostgreSQL se quedarán en estado `Pending` para siempre.**
+```bash
+aws eks create-addon \
+  --cluster-name tfg-taekwondo-cluster \
+  --addon-name aws-ebs-csi-driver \
+  --region us-east-1
+```
+*(Dale 1 o 2 minutos de margen después de ejecutarlo para que AWS lo instale por debajo).*
+
+---
+
+## FASE 5: Subir tus Certificados SSL (IONOS)
+Vuelve a la raíz de tu proyecto y sube los certificados para garantizar el candado verde de HTTPS.
+```bash
+cd ..
+kubectl create secret tls ionos-tls-secret \
+  --cert=client/certs/certificado.crt \
+  --key=client/certs/clave.key
+```
+
+---
+
+## FASE 6: Desplegar la Aplicación
+Tienes dos formas de hacer esto: de forma automatizada o manual.
+
+### Opción A: Despliegue mediante CI/CD (Recomendado)
+1. Define en tu repositorio de GitHub los *Secrets*: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` y `AWS_REGION`.
+2. Sube tus cambios a la rama `main`.
+3. Esto disparará `.github/workflows/cicd.yml`, que pasará tests, subirá las imágenes Docker a Amazon ECR, y desplegará en EKS.
+
+### Opción B: Despliegue Manual (Desde tu ordenador)
+Lanza todas las configuraciones de Kubernetes a la vez usando tus ficheros YAML de despliegue:
+```bash
+kubectl apply -f kubernetes/infraestructura.yml
+kubectl apply -f kubernetes/proxy.yml
+kubectl apply -f kubernetes/despliegue.yml
+```
+*(Si usas la carpeta `k8s/`, aplica esos en su lugar).*
+
+Puedes ver cómo van arrancando ejecutando esto:
+```bash
+kubectl get pods -w
+```
+*(Usa `Ctrl+C` para salir. Espera a que todos pongan `Running` antes de pasar al paso 7).*
+
+---
+
+## FASE 7: Preparar la Base de Datos (Backend)
+Cuando recreas el proyecto en AWS, la base de datos nace vacía. Hay que crear las tablas de Django y el usuario administrador.
+
+**1. Busca el nombre de tu pod del backend:**
+```bash
+kubectl get pods | grep backend
+```
+*Copia el nombre completo, por ejemplo: `backend-deployment-6f4d495877-kvhsb`*
+
+**2. Crea las tablas (Migraciones):**
+```bash
+kubectl exec -it [AQUÍ_EL_NOMBRE_DEL_POD] -- python manage.py migrate
+```
+
+**3. Crea tu usuario para el Panel de Control:**
+```bash
+kubectl exec -it [AQUÍ_EL_NOMBRE_DEL_POD] -- python manage.py createsuperuser
+```
+
+**4. Reinicia el backend (¡Importante!)**
+Como la base de datos tardó unos segundos en inicializarse la primera vez, es posible que el backend se haya quedado "tonto" intentando conectar al principio. Para que reconecte en limpio y no te dé un "502 Bad Gateway", reinícialo:
+```bash
+kubectl rollout restart deployment backend-deployment
+```
+
+---
+
+## FASE 8: Obtener la URL y Configurar IONOS
+Por último, averigua qué dirección te ha dado AWS para tu entrada principal:
+```bash
+kubectl get service proxy-service
+```
+*(PD: Recuerda cambiar la variable en el frontend, como el `config.js` o las variables de entorno, para que apunte a esta URL y se comunique bien con el backend).*
+
+1. Busca la columna **`EXTERNAL-IP`**. Verás una URL larguísima terminada en `.elb.amazonaws.com`.
+2. Cópiala.
+3. Ve a tu panel de IONOS.
+4. En la configuración DNS de tu dominio, crea un registro **CNAME** (o tipo ALIAS) y pega esa URL de AWS como destino.
+
+¡Y listo! Al entrar a tu dominio cargará tu aplicación asegurada.
+
+---
+
+## FASE 9: Cómo destruir la infraestructura (Ahorro de Costes)
+Si has realizado el despliegue únicamente para una demostración o entorno de pruebas temporal, asegúrate de destruir la infraestructura para evitar consumos del Learner Lab.
+1. Desde la carpeta `terraform/`, ejecuta:
+   ```bash
+   terraform destroy
+   ```
+2. Revisa el plan de destrucción y confirma con `yes`. Esto borrará por completo el clúster EKS, los LoadBalancers, bases de datos y la VPC creadas.

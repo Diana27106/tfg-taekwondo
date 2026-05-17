@@ -109,6 +109,8 @@ tfg-taekwondo/
 
 ## 3. Entornos de Despliegue
 
+![Entornos de Despliegue](./fotos/infraestructura.png)
+
 ### 3.1 Entorno Local (Docker Compose)
 
 Todos los servicios se levantan con un único comando. La comunicación interna se realiza a través de la red Docker `tfg-network`.

@@ -38,3 +38,24 @@ La aplicación es accesible desde cualquier navegador moderno (Chrome, Firefox, 
 1.  Navega a **Clases y Sedes**.
 2.  Busca el apartado de **"Adultos"** para ver el horario.
 3.  Consulta la tabla de **"Nuestras Sedes"** para elegir la más cercana a tu domicilio.
+
+## 4. Acceso al Panel de Administración y Gestión de Contenidos
+
+Para acceder al panel de control, navegue a `/login` e introduzca sus credenciales de administrador. Una vez dentro, accederá al **Dashboard Principal**.
+
+Desde el panel lateral, puede gestionar los siguientes módulos:
+
+### A. Instructores
+*   **Crear**: Sube una foto, añade el grado Dan y una biografía profesional.
+*   **Editar**: Actualiza el rango del instructor si ha subido de grado.
+*   **Buscador**: Usa la barra superior para buscar instructores por nombre o rango en tiempo real.
+
+### B. Noticias (Blog)
+*   Añade artículos sobre los logros del club. El sistema genera automáticamente la URL amigable (slug) para mejorar el posicionamiento en buscadores.
+
+### C. Eventos del Calendario
+*   Registra fechas de competiciones o seminarios.
+*   **Importante**: Asegúrate de incluir el enlace de inscripción si es un evento externo.
+
+### D. Patrocinadores
+*   Gestiona los logos de las empresas colaboradoras. Puedes desactivarlos temporalmente sin borrarlos desmarcando la casilla "¿Activo?".
