@@ -48,8 +48,8 @@ Vuelve a la raíz de tu proyecto y sube los certificados para el HTTPS.
 ```bash
 cd ..
 kubectl create secret tls ionos-tls-secret \
-  --cert=client/certs/certificado.crt \
-  --key=client/certs/clave.key
+  --cert=client/cert_temp/certificado.crt \
+  --key=client/cert_temp/clave.key
 ```
 
 ---
