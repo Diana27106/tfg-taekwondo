@@ -82,19 +82,21 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-
+        
       - name: Terraform Init
         working-directory: terraform
-        run: terraform init
+        # Añadimos -upgrade para limpiar cualquier inconsistencia de versiones
+        run: terraform init -upgrade
 
       - name: Terraform Plan
         working-directory: terraform
-        run: terraform plan
+        run: terraform plan -input=false
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
         working-directory: terraform
-        run: terraform apply -auto-approve
+        # Añadimos -input=false para que no se quede colgado esperando confirmación
+        run: terraform apply -auto-approve -input=false
 
   build-and-push:
     name: Build & Push Docker Images
